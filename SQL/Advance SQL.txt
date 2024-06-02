@@ -1,0 +1,272 @@
+ANALYTICAL FUNCTIONS:
+*********************
+-->Analytical functions to calculate an aggregate value based on group of rows and return multiple/all rows of each group.
+
+AGGREGATE FUNCTION:
+********************
+SEELCT SUM(SAL)
+FROM EMP;
+/
+SELECT COUNT(*)
+FROM EMP;
+/
+
+select e.*,(select sum(a.sal) from emp a) as sum_sal
+from emp e;
+/
+select deptno,avg(sal)
+from emp
+group by deptno;
+/
+ANALYTICAL FUNCTION:
+********************
+SELECT EMP.*,SUM(SAL) OVER() FROM EMP;
+/
+SELECT EMP.*,COUNT(*) OVER() FROM EMP;
+/
+SELECT EMPNO,SAL,DEPTNO,SUM(SAL) OVER() FROM EMP ORDER BY DEPTNO;
+/
+SELECT EMP.*,SUM(SAL) OVER (PARTITION BY DEPTNO ORDER BY SAL DESC) FROM EMP;
+/
+--CUMULATIVE SALARIES
+SELECT EMP.*,SUM(SAL) OVER (ORDER BY EMPNO) FROM EMP;
+--DEPTNO WISE CUMULATIVE SALARIES
+SELECT EMP.*,SUM(SAL) OVER (PARTITION BY DEPTNO ORDER BY EMPNO) FROM EMP;
+
+-->To assign rank numbers to each row or else group of rows wise.
+-->Oracle supporting the following three types of analytical functions.
+
+1)ROW_NUMBER
+2)RANK
+3)DENSE_RANK
+4)LAG
+5)LEAD
+
+These analytical functons are automatically generate ranking numbers to each row wise or group of rows wise.These are also called as "RANKING FUNCTIONS".
+
+EX:
+EMPNO      ENAME        SAL   ROW_NUMBER()      RANK()    DENSE_RANK()
+1          A          100000         1              1        1
+2          B           90000         2              2        2
+3          C           90000         3              2        2
+4          D           80000         4              4        3
+5          E           70000         5              5        4
+6          F           60000         6              6        5
+7          G           50000         7              7        6
+8          H           50000         8              7        6
+9          I           40000         9              9        7
+10         J           30000        10              10       8
+
+ROW_NUMBER:
+***********
+-->To assign different rank numbers to same value.
+
+SYNTAX:
+*******
+ANALYTICAL FUNCTION NAME() OVER ([PARTITION BY <COLUMN NAME>] ORDER BY <COLUMN NAME><>ASC/DESC]
+
+ORDER BY CALUSE --MANDATORY
+PARTITION BY    --OPTIONAL
+
+EX:
+***
+WITHOUT PARTITION BY CLAUSE:
+****************************
+SELECT ENAME,SAL,ROW_NUMBER () OVER (ORDER BY SAL DESC) FROM EMP;
+
+WITH PARTITION BY CLAUSE:
+*************************
+SELECT ENAME,SAL,DEPTNO,ROW_NUMBER() OVER (PARTITION BY DEPTNO ORDER BY SAL DESC) FROM EMP;
+
+
+RANK():
+*******
+-->To assign same rank number to same value but it is skipping the next seuence rank number in the order.
+
+SYNTAX:
+*******
+ANALYTICAL FUNCTION NAME() OVER ([PARTITION BY <COLUMN NAME>] ORDER BY <COLUMN NAME><>ASC/DESC]
+
+ORDER BY CALUSE --MANDATORY
+PARTITION BY    --OPTIONAL
+
+WITHOUT PARTITION BY CLAUSE:
+****************************
+EX:
+****
+SELECT ENAME,SAL,RANK () OVER (ORDER BY SAL DESC)R
+FROM EMP;
+
+WITH PARTITION BY CLAUSE:
+*************************
+SELECT ENAME,SAL,DEPTNO,RANK() OVER (PARTITION BY DEPTNO ORDER BY SAL DESC)R
+FROM EMP;
+/
+
+DENSE_RANK():
+*************
+-->To assign same rank number to same value but it is not skipping the next sequence number in the order.
+
+SYNTAX:
+*******
+ANALYTICAL FUNCTION NAME() OVER ([PARTITION BY <COLUMN NAME>] ORDER BY <COLUMN NAME><>ASC/DESC]
+
+ORDER BY CALUSE --MANDATORY
+PARTITION BY    --OPTIONAL
+
+
+WITHOUT PARTITION BY CLAUSE:
+****************************
+EX:
+****
+SELECT ENAME,SAL,DENSE_RANK () OVER (ORDER BY SAL DESC)R
+FROM EMP;
+WITH PARTITION BY CLAUSE:
+*************************
+EX:
+****
+SELECT ENAME,SAL,DEPTNO,DENSE_RANK() OVER (PARTITION BY DEPTNO ORDER BY SAL DESC)R
+FROM EMP;
+/
+SELECT *
+FROM (SELECT ENAME,SAL,DEPTNO,DENSE_RANK() OVER (PARTITION BY DEPTNO ORDER BY SAL DESC)R FROM EMP)
+WHERE R=&n;
+/
+SELECT *
+FROM (SELECT ENAME,SAL,DEPTNO,DENSE_RANK() OVER (ORDER BY SAL DESC)R FROM EMP)
+WHERE R<=3;
+/
+EX1:
+****
+-->WAQ TO DISPLAY 3rd HIGHEST SALARY EMPLOYEE DETAILS FROM EMP TABLE IN EACH DEPTNO WISE BY USING DENSE_RANK() ALONG WITH INLINE VIEW ?
+
+SELECT * FROM (SELECT ENAME,SAL,DEPTNO,DENSE_RANK()OVER(PARTITION BY DEPTNO ORDER BY SAL DESC) R FROM EMP) WHERE R=3;
+
+SELECT * FROM (SELECT SAL,DEPTNO,RANK() OVER (PARTITION BY DEPTNO ORDER BY SAL DESC)RANK  FROM EMP GROUP BY DEPTNO,SAL)
+WHERE RANK=3
+
+EX2:
+****
+-->WAQ TO DISPLAY THE 4th SENIOR MOST EMPLOYEE FROM EACH JOB WISE ?
+
+SELECT * FROM (SELECT ENAME,JOB,HIREDATE,DENSE_RANK()OVER(PARTITION BY JOB ORDER BY HIREDATE) R FROM EMP) WHERE R=4;
+/
+SELECT *
+FROM(SELECT DEPTNO,SAL,COUNT(*)OVER(PARTITION BY DEPTNO)DEPT_COUNT,
+                       RANK() OVER(PARTITION BY DEPTNO ORDER BY SAL DESC)RANK ,
+                       DENSE_RANK() OVER(PARTITION BY DEPTNO ORDER BY SAL DESC)DENSE_RANK,
+                       ROW_NUMBER() OVER(PARTITION BY DEPTNO ORDER BY SAL DESC)ROW_NUMBER
+                       FROM EMP)ORDER BY DEPTNO;
+/
+LAG:
+*****
+-->It is used to access previous row data along with current data.
+-->IT IS USED TO PREVIOUS ROW VALUE WITH IN THE SAME TABLE
+/
+LAG(expression [,offset[,default_value]]) OVER(ORDER BY columns)
+/
+SELECT EMPNO,ENAME,JOB,SAL,
+       LAG(SAL)OVER(ORDER BY SAL DESC)PREV_ROW
+FROM EMP;       
+/
+SELECT EMPNO,ENAME,JOB,SAL,
+       LAG(SAL,1,0)OVER(ORDER BY SAL DESC)PREV_ROW
+FROM EMP;       
+/
+SELECT EMPNO,ENAME,JOB,SAL,DEPTNO,
+       LAG(SAL,1,0)OVER(PARTITION BY DEPTNO ORDER BY SAL DESC)PREV_ROW
+FROM EMP;       
+/
+SELECT EMPNO,ENAME,JOB,SAL,HIREDATE,
+       LAG(HIREDATE,1,SYSDATE)OVER(ORDER BY HIREDATE )PREV_ROW
+FROM EMP;       
+/
+SELECT EMPNO,ENAME,SAL,DEPTNO,
+       LAG(SAL,1,0) OVER (PARTITION BY DEPTNO ORDER BY SAL DESC)PREV_ROW
+FROM EMP;
+LEAD:
+*****
+-->It is used to access the subsequent row data along with current row data.	
+-->IT IS USED TO NEXT ROW VALUE WITH IN THE SAME TABLE
+/
+LEAD(expression [,offset[,default_value]]) OVER(ORDER BY columns)
+/
+expression:
+***********
+-->It is a scalar expression evaluated against the value of the row at a given offset prior to the current row.
+
+offset:
+*******
+-->It is the number of rows that you want to backward from the current row. The default is 1.
+
+default:
+********
+-->If the offset goes beyond the scope of the partition, the function returns the default. If you omit default, then the function returns NULL.
+/
+SELECT EMPNO,ENAME,JOB,SAL,
+       LEAD(SAL,1,0)OVER(ORDER BY SAL DESC)NEXT_VAL
+FROM EMP;       
+/
+SELECT EMPNO,ENAME,JOB,SAL,HIREDATE,
+       LEAD(HIREDATE,1,SYSDATE)OVER(ORDER BY HIREDATE )NEXT_VAL
+FROM EMP;       
+/
+SELECT EMPNO,ENAME,SAL,DEPTNO,
+       LEAD(SAL,1,0) OVER (PARTITION BY DEPTNO ORDER BY SAL DESC)NEXT_VAL
+FROM EMP;
+NULLS FIRST AND NULLS LAST:
+****************************
+/
+SELECT *
+FROM EMP
+ORDER BY COMM DESC
+NULLS FIRST;
+/
+SELECT *
+FROM EMP
+ORDER BY COMM DESC
+NULLS LAST;
+/
+SELECT EMPNO,ENAME,SAL,COMM,RANK() OVER(ORDER BY COMM DESC NULLS FIRST)RANK_NULLS_FIRST,
+                            DENSE_RANK() OVER(ORDER BY COMM NULLS FIRST) DENSE_RANK_NULLS_FIRST
+FROM EMP;
+/
+SELECT EMPNO,ENAME,SAL,COMM,RANK() OVER(ORDER BY COMM DESC NULLS LAST)RANK_NULLS_FIRST,
+                            DENSE_RANK() OVER(ORDER BY COMM NULLS LAST) DENSE_RANK_NULLS_FIRST
+FROM EMP;
+/
+
+
+SELECT EMPNO,ENAME,SAL,DEPTNO,COMM,RANK() OVER(PARTITION BY DEPTNO ORDER BY COMM DESC NULLS FIRST)RANK_NULLS_FIRST,
+                            DENSE_RANK() OVER(PARTITION BY DEPTNO ORDER BY COMM NULLS FIRST) DENSE_RANK_NULLS_FIRST
+FROM EMP;
+/
+SELECT EMPNO,ENAME,SAL,DEPTNO,COMM,RANK() OVER(PARTITION BY DEPTNO ORDER BY COMM DESC NULLS LAST)RANK_NULLS_FIRST,
+                            DENSE_RANK() OVER(PARTITION BY DEPTNO  ORDER BY COMM NULLS LAST) DENSE_RANK_NULLS_FIRST
+FROM EMP;
+/
+FLASHBACK TABLE:
+****************
+-->THIS COMMAND IS USED TO RESTORE DROP OBJECTS FROM RECYCLEBIN
+
+SYNTAX:
+*******
+FLASHBACK TABLE <TABLENAME> TO BEFORE DROP;
+
+EX:
+***
+FLASHBACK TABLE EMP1 TO BEFORE DROP;
+
+PURGE:
+******
+-->THIS COMMAND IS USED TO DROP OBJECTS FROM RECYCLEBIN PERMANENTLY.
+
+SYNTAX:
+*******
+PURGE TABLE <TABLENAME>
+
+PURGE TABLE EMP1;
+/
+DROP TABLE EMP1 PURGE;
+/
+ 

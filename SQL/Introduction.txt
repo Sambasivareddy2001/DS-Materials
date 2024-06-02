@@ -1,0 +1,114 @@
+Database:
+*********
+-->It is a collection of "related and meaningful information" stored centrally at one location.
+
+Advantages:
+************
+-->Data Security
+-->Data Backup
+-->Huge amount of data
+-->Data export and import
+
+   
+RDBMS: 
+*******
+-->RDBMS is a database management system that data is stored in form of tables and each table contains rows and columns.
+-->It is a software used to insert,update,delete the records in related table.
+
+Examples of RDBMS are:
+
+ORACLE
+MS SQL SERVER
+IBM DB2
+MYSQL
+MS ACCESS
+MYSQL
+
+Field :
+*******
+-->Each column in a table is called as Field or collection of related data is called as Field.
+Record :
+******** 
+-->Each row in a table is called as Record or collection of related fields are called Record.
+
+Table :
+*******
+-->It represents the data in rows and columns.
+-->collection of related records are called Table.
+-->A table can have minimum one column and maximum 1000 columns.
+-->A table can have unlimited rows.
+
+Query:
+******
+-->A query is a request for data or information from a database table or combination of tables. 
+-->Queries are used to tell what we required from database.
+
+Components in Oracle Database:
+******************************
+SQL
+PL/SQL
+
+SQL-->Structured Query Language
+PL/SQL-->Procedural Language using SQL
+
+SQL:
+****
+-->SQL stands for structured query language.
+-->SQL was initially developed at IBM in 1970's.
+-->SQL is a open source any body can use with free of cost.
+-->It's pronounced as S.Q.L/sequel
+-->It is a language which is used to communicate with the Relational databasemanagement systems like ORACLE,MS ACCESS,MS SQL SERVER,MY SQL,DB2(IBM),SYBASE etc.
+-->SQL is a standard language designed for accessing and managing data in relational database management systems.
+-->It is used for accessing and manipulating databases such as insert,update,delete and SELECT
+-->SQL is a nonprocedural language.
+-->SQL is a not case sensitive language.
+
+What can SQL do?(Purpose of SQL):
+*********************************
+-->SQL is used to execute queries against a database.
+-->SQL is used to Create New Databases.
+--?SQL is used to create New Tables in a Database.
+-->SQL is used to Insert records in a Database.
+-->SQL is used to update records in a Database.
+-->SQL is used to delete records in a Database.
+-->SQL is used to Retrieve data  from a Database.
+-->SQL can set permissions on Tables,Views and Procedures.
+-->SQL is used to create Views in a database.
+
+
+Components of SQL:
+******************
+-->SQL contains 5 subcalsses.
+
+Data Retrieval Language(DRL)
+*****************************
+-->It is used to retrieve the information from database objects for read only purpose use SELECT statement.
+Data Definition Language.
+**************************
+-->It is used to define the database objects.
+CREATE
+ALTER
+RENAME
+DROP
+TRUNCATE
+Data Manipulation Language:
+***************************
+-->It is used to manipulate the data in databse objects using insert,update and delete.
+INSERT 
+UPDATE
+DELETE
+MERGE.
+Transaction Control Language:
+*****************************
+-->It is used to save or cancel the information using commit or rollback and savepoint.
+
+COMMIT
+ROLLBACK
+SAVEPOINT.
+
+Data Control Language:
+**********************
+-->It is used to share the information between users using GRANT and REVOKE
+GRANT 
+REVOKE
+

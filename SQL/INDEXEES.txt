@@ -1,0 +1,237 @@
+-->What is the use of Index.
+-->Why we have to create Index.
+-->Without Index what is the disadvantage with Index what is the advantage
+
+INDEXES:
+========
+-->INDEX IS AN DATABASE OBJECT WHICH IS USED TO RETRIEVE DATA FROM A TABLE FASTLY.
+-->A DATABASE INDEX WILL WORK AS A BOOK INDEX PAGE IN TEXT BOOK.IN TEXT BOOK BY USING INDEX PAGE WE CAN RETRIEVE A PARTICULAR TOPIC FROM A TEXT BOOK VERY FASTLY SAME AS BY USING DATABASE INDEX OBJECT WE CAN RETRIEVE A PARTICULAR ROW FROM A TABLE VAERY FASTLY.
+-->BY USING INDEXES WE CAN SAVE TIME AND IMPROVE THE PERFORMANCE OF DATABASE.
+-->INDEX OBJECT CAN BE CREATED ON A PARTICULAR COLUMN (OR) COLUMNSOF A TABLE AND THESE COLUMNS ARE CALLED AS "INDEX KEY COLUMNS".
+-->Index uses ROWID to fetch data from table.
+-->Usage of Indexed columns to improve the performance
+-->ALL DATABASES ARE SUPPORTING THE FOLLOWING TWO TYPES OF SEARCHING MECHANISMS THOSE ARE,
+	
+		1. TABLE SCAN(DEFAULT)
+		2. INDEX SCAN
+
+1.TABLE SCAN:
+=============
+	- IT A DEFAULT SCANNING MECHANISM FOR RETRIEVING DATA FROM TABLE.IN THIS MECHANISM ORACLE SERVER IS SCANNING ENTIRE TABLE(TOP - BOTTOM)
+
+EX:
+SQL> SELECT sal FROM EMP WHERE SAL=3000;
+
+SOL:
+====
+
+ SAL 
+-------- 
+ 800 
+1600 
+1250 
+2975 
+1250 
+2850 
+2450 			WHERE SAL=3000;
+3000 	    ( IN THIS TABLE SCAN WE ARE COMPARING WHERE CONDITION 14 TIMES)
+5000 
+1500 
+1100 
+ 950 
+3000 
+1300 
+
+2) INDEX SCAN:
+=============
+	- IN INDEX SCAN MECHANISM ORACLE SERVER SCANNING ONLY INDEXED COLUMN FROM A TABLE. 
+
+TYPES OF INDEXES:
+*****************
+1)Btree Index
+2)Bit Map Index
+
+1. B - TREE INDEX (DEFAULT INDEX)
+		- SIMPLE INDEX
+		- COMPOSITE INDEX
+		- UNIQUE INDEX
+		- FUNCTIONA BASED INDEX
+        - Reverse
+
+Btree Index:
+************
+-->It stands for Balanced Trees.
+-->It is an ordered list of values divided into range along with the row id information stored in index segment.
+
+-->B-tree indexes are suitable for containing high number of values.
+
+EX:
+***
+Employee Number
+Bank Account number
+Mobile Number
+PAN Card
+Aadhar Card
+
+
+1)Simple Index
+2)Composite Index
+3)Unique Index
+4)Function Based Index
+5)Reverse Key Index
+
+TABLE:
+******
+CREATE TABLE EMP_IDX
+(
+EMPNO NUMBER,
+ENAME VARCHAR2(20),
+JOB   VARCHAR2(20),
+SAL   NUMBER,
+DEPTNO NUMBER
+);
+
+/
+INSERT INTO EMP_IDX SELECT EMPNO,ENAME,JOB,SAL,DEPTNO FROM EMP;
+/
+COMMIT;
+/
+
+
+EX:
+***
+Simple Index:
+*************
+-->When we create an index on a single column then we called as simple index.
+
+SYNTAX:
+******
+CREATE INDEX <INDEX NAME> ON <TN>(<COLUMN NAME>);
+
+EX:
+***
+CREATE INDEX ID1 ON EMP_IDX(EMPNO);
+/
+Composite Index:
+****************
+-->When we create an index on a multiple columns then we called as Composite index.
+
+SYNTAX:
+*******
+CREATE INDEX <INDEX NAME> ON <TN>(<COLUMN NAME1>,<COLUMN NAME2>,..........);	
+
+EX:
+***
+CREATE INDEX ID2 ON EMP_IDX(JOB,SAL);
+/
+Unique Index:
+*************
+-->When we create an index based on "UNIQUE CONSTRAINT"  column is called unique index.
+-->Unique index does not allow duplicate values.
+
+SYNTAX:
+=======
+CREATE UINQUE INDEX <INDEX NAME> ON <TN>(<COLUMN NAME>);
+
+EX:
+***
+CREATE UNIQUE INDEX ID3 ON EMP_IDX(SAL);
+/
+Function Based Index:
+*********************
+-->When we create an index based on function then we called as function based index.
+
+SYNTAX:
+*******
+CREATE INDEX <INDEX NAME> ON <TN>(<FUNCTION NAME>(COLUMN NAME))
+
+
+CREATE INDEX ID4 ON EMP_IDX(UPPER(ENAME));
+/
+Reverse Key Index:
+******************
+CREATE TABLE XX_STU_REV
+(
+SNO NUMBER,
+SNAME VARCHAR2(20),
+MARKS NUMBER
+);
+/
+INSERT INTO XX_STU_REV VALUES(1,'A',10);
+/
+INSERT INTO XX_STU_REV VALUES(2,'B',15);
+/
+INSERT INTO XX_STU_REV VALUES(3,'C',27);
+/
+INSERT INTO XX_STU_REV VALUES(4,'D',89);
+/
+INSERT INTO XX_STU_REV VALUES(5,'E',91);
+/
+INSERT INTO XX_STU_REV VALUES(6,'F',98);
+/
+INSERT INTO XX_STU_REV VALUES(7,'G',99);
+/
+INSERT INTO XX_STU_REV VALUES(8,'H',100);
+/
+COMMIT;
+/
+CREATE INDEX INDEXNAME ON TABLENAME(COLUMNNAME) FUNCTIONANME;
+/
+CREATE INDEX IDX5 ON XX_STU_REV(MARKS) REVERSE;
+/
+BITMAP INDEX:
+************
+-->It is created on distinct values of a particular column.
+-->Generally Bitmap indexes are created on low cardinality of columns.
+-->When we create Bit map index internally oracle server is preparing Bit map indexed table with bit numbers are 1 and 0.
+
+CARDINALITY:
+============
+	- IT REFERES TO THE UINQUENESS OF DATA VALUES CONTAINE IN PARTICULAR COLUMN OF TABLE.
+
+HOW TO FIND CARDINALITY OF A COLUMN:
+====================================
+
+CARDINALITY OF COLUMN = NO.OF DISTINCT VALUES OF A COLUMN
+		        ------------------------------------------------------------------
+			NO.OF ROWS IN A TABLE
+
+SYNTAX:
+========
+CREATE BITMAP INDEX <INDEX NAME> ON <TN>(<COLUMN NAME>);
+
+
+CREATE BITMAP INDEX ID6 ON EMP_IDX(DEPTNO);
+/
+Advantages:
+***********
+-->Performance Imprrovement.
+
+Disadvantages:
+**************
+-->Index consumes considerable amount of space.
+-->DML performance might get impacted.
+
+/
+SELECT *
+FROM USER_INDEXES
+WHERE INDEX_NAME='ID1';
+/
+SELECT *
+FROM USER_IND_COLUMNS
+WHERE INDEX_NAME='ID1';
+/
+select *
+from all_indexes
+where table_name='EMP_IDX';
+/
+-- How to find out the Index Table Columns
+SELECT *
+FROM ALL_IND_COLUMNS
+WHERE TABLE_NAME='EMP_IDX'
+/
+-- How to find out the Table Columns
+SELECT COUNT(COLUMN_NAME)
+FROM ALL_TAB_COLUMNS
+WHERE TABLE_NAME='EMP'
+AND   OWNER='APPS'
