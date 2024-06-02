@@ -1,0 +1,203 @@
+Data Types:
+***********
+-->It is used to represents what type of information stored in to the column.(What type of data you need to maintan a column).
+
+There are two types.
+********************
+a)Simple datatype    -->Provided by oracle automatically.
+b)Composite datatype -->defined by user in pl/sql.
+
+SIMPLE DATATYPES:
+*****************
+NUMERIC DATATYPES
+CHARACTER DATATYPES/ STRING DATATYES
+LONG DATATYPE
+DATE DATATYPES 
+
+COMPOSITE DATATYPES:
+********************
+TYPE
+ROWTYPE
+RECORD
+
+NUMERIC DATATYPES:
+******************
+NUMBER(P,S):
+************
+-->It is used to represent numeric information.
+-->PRECISION is mandatory and SCALE is optional.
+-->Precision is the total number of digits in the number(Integer Part+Decimal Part).
+-->Scale is the total number of digits in the decimal part.
+-->Size is optional.
+-->Max Length is 38
+-->Characters allowed (0-9,.,+,-)
+Here ths datatype is having following two arguments are Precision(P),Scale(S).
+NUMBER(P,S):
+***********
+NUMBER(P)------> STORE INTEGER VALUES 
+-->It is used to store Integer values and it's range is 1-38.
+NUMBER(P,S)----> STORE FLOAT VALUES
+EX:
+***
+PRECISION(P):
+	> COUNTING ALL DIGITS INCLUDING LEFT & RIGHT SIDES OF GIVEN FLOAT EXPRESSION.
+	Ex:	25.12
+		PRECISION = 4
+	Ex:	856.45
+		PRECISION = 5
+	Ex:	9999.99
+		PRECISION = 6
+SCALE(S):
+> COUNTING ONLY RIGHT DIGITS OF A FLOAT EXPRESSION.
+	Ex:	25.12
+		SCALE = 2
+		PRECISION = 4
+	Ex:
+		7456.123
+		SCALE = 3
+		PRECISION = 7
+
+EX:
+***
+CREATE TABLE XXSQL_DT_NUM
+(
+A NUMBER,
+B NUMBER(7),
+C NUMBER(8,2)
+);
+/
+CREATE TABLE XXSQL_NUMBER1
+(
+A NUMBER(39)
+);
+/
+--IT WILL THROW THE ERROR.
+/
+CREATE TABLE XXSQL_NUMBER2
+(
+A NUMBER(0)
+);
+/
+--IT WILL THROW THE ERROR.
+CHAR[<size>]
+*************
+-->It is used to represent character information.
+-->Fixed length character data type.
+-->Maximum size is 2000 byte/2000 char.
+-->Default size is one byte.
+-->size is optional
+-->Size is specified in byte/char
+-->Characrters allowed a-z,A-Z,0-9,all special characters.
+
+CREATE TABLE XX_DT_CHAR
+(
+A CHAR,
+B CHAR(10),
+C CHAR(2000)
+);
+/
+DESC XX_DT_CHAR;
+/
+SELECT * FROM XX_DT_CHAR;
+/
+INSERT INTO XX_DT_CHAR VALUES('A','AB','AB');
+/
+INSERT INTO XX_DT_CHAR VALUES('1','12','1234@*&');
+/
+SELECT * FROM XX_DT_CHAR;
+
+VARCHAR2[<size>]
+*****************
+-->It is used to represent character information.
+-->Variable length character datatype.
+-->Maximum size is 4000 byte/4000 char.
+-->size is mandatory.
+-->Size can be specified in byte/char.
+-->Characrters allowed a-z,A-Z,0-9,all special characters.
+
+CREATE TABLE XX_DT_VARCHAR
+(
+A VARCHAR2(3),
+B VARCHAR2(10),
+C VARCHAR2(4000)
+);
+/
+DESC XX_DT_VARCHAR;
+/
+INSERT INTO XX_DT_VARCHAR VALUES ('ABC','ABC','ABC');
+/
+SELECT * FROM XX_DT_VARCHAR;
+/
+INSERT INTO XX_DT_VARCHAR VALUES ('ABCD','ABC','ABC');  --ERROR
+/
+INSERT INTO XX_DT_VARCHAR VALUES ('AB','ABCDEFGH','ABCDEFGH');  --VALID
+/
+SELECT * FROM XX_DT_VARCHAR;  
+/
+--DIFFERNCES BETWEEN CHAR AND VARCHAR2
+
+CREATE TABLE XXSQL_DT_VARC
+(
+X NUMBER,
+Y CHAR(10),
+Z VARCHAR2(10)
+);
+/
+DESC XXSQL_T1;
+/
+INSERT INTO XXSQL_T1 VALUES(1,'X','X');
+INSERT INTO XXSQL_T1 VALUES(2,'XY','XY');
+INSERT INTO XXSQL_T1 VALUES(3,'XYZ','XYZ');
+/
+SELECT * FROM XXSQL_T1;
+/
+SELECT X,Y,LENGTH(Y),Z,LENGTH(Z) FROM XXSQL_T1;
+/
+LONG:
+*****
+LONG
+-->It is used to represent characters or numbers.
+-->Max size is 2gb
+-->Only one LONG column is allowed per table.
+-->LONG columns are not allowed in WHERE clause.
+EX:
+***
+description long
+/
+CREATE TABLE XX_LONG
+(
+DESCRIPTION LONG
+);
+/
+CREATE TABLE XX_DT_LONG
+(
+A NUMBER,
+B NUMBER(10),
+C NUMBER(10,5),
+D CHAR,
+E CHAR(2000),
+F VARCHAR2(10),
+G VARCHAR2(4000),
+H LONG
+);
+/
+DATE DATATYPES:
+***************
+-->Storing date and time information of a particular day.
+-->RANGE OF DATE DATATYPES IS FROM "01-JAN-4712 BC " TO "31-DEC-9999 AD ".
+
+DATE:
+*****
+-->It is used to represent date and time information but time is optional.
+-->the default date format in oracle is dd-mon-yy/dd-mon-yyyy
+
+EX:
+***
+joiningdate date;
+
+/
+CREATE TABLE XX_DATE
+(
+HIREDATE DATE
+);
+/

@@ -1,0 +1,15 @@
+1)List the employees working in "RESEARCH"department.
+2)List the employees who are located in New York and Chicago
+3)Display the department name in which ANALYSTS are working.
+4)Display the employees who are reporting JONES
+5)Display all the employees who are reporting to JONES manager
+6)Display all the managers in SALES and ACCOUNTING department.
+7)Display all the employees names in RESEARCH and SALES department who are having at least one person reporting to them.
+8)Display all employees who do not have any reportees.
+9)Display employees who are havng atlease two reporting 
+10)List the department names which are having more than  5 employees.
+11)List department name having atleast 3 SALESMAN.
+12)List employees from research and accounting having atleast 2 reporting.
+13)Display second max salary
+14)Dispaly the 4th Max salary.                                             
+15)Display  5th max salary --Answer for nth max salary.

@@ -1,0 +1,427 @@
+OPERATORS:
+**********
+-->Arithemetic Operators
+-->Logical Operators
+-->Relational Operators
+-->Special Operators
+-->Set Operators
+
+1)Arithemetic Operators(+,-,*,/):
+*********************************
+-->It is used to do the mathematical functions(Arithmetical calculations) like addition,subtraction,multiplication and division.
+
+What is DUAL:
+*************
+--> Pre-Define table in oracle.
+--> It is having single row and single column.
+--> It is called as dummy table in oracle.
+--> Testing Functions(PRE-DEFINE & USER DEFINE) Functionalities. 
+
+TO VIEW STRC.OF DUAL TABLE:
+***************************
+DESC DUAL;
+
+TO VIEW DATA OF DUAL TABLE:
+***************************
+SELECT  * FROM DUAL;
+
+EX:
+***
+SELECT 2+8 FROM DUAL;
+SELECT 40+50 FROM DUAL;
+SELECT 8-6 FROM DUAL;
+SELECT 2*9 FROM DUAL;
+SELECT 100/10 FROM DUAL;
+select 2+2 addi,5-3 sub,2*8 mul, 50/5 div from dual;
+SELECT SAL,SAL*12 MULTIPLICATION,SAL+10 ADDITION,SAL-100 SUB
+FROM EMP;
+
+NVL (expr1, expr2):
+*******************
+-->It assgns the value to the column if it is null.
+-->The NVL() function accepts two arguments. If e1 evaluates to null, then NVL() function returns e2. 
+-->If e1 evaluates to non-null, the NVL() function returns e1.
+
+SELECT SAL,COMM,NVL(COMM,0),SAL+COMM,SAL+NVL(COMM,0)
+FROM EMP;
+
+
+SAL  COMM  SAL+COMM               SAL+NVL(COMM,0)
+5000 NULL   5000+NULL=NULL       5000+0=5000
+1000 NULL   1000+NULL=NULL       1000+0=1000
+2000 NULL   2000+NULL=NULL       2000+0=2000
+3000 NULL   3000+NULL=NULL       3000+0=3000
+1600  300   1600+300=1900        1900
+600   200   600+200=800          800
+800    0    800+0=800            800
+3)Relational Operators:(=,(!=or <>),<,<=,>,>=)
+****************************************
+EX:
+***
+SELECT * FROM EMP WHERE DEPTNO<=20;
+SELECT * FROM EMP WHERE SAL>2000;
+SELECT * FROM EMP WHERE SAL=2000;
+SELECT * FROM EMP WHERE DEPTNO!=10;
+/
+=
+!= OR <>
+<
+<=
+>
+>=
+EX:
+***
+SELECT *
+FROM EMP
+WHERE DEPTNO=30;
+
+SELECT *
+FROM EMP
+WHERE DEPTNO!=10;
+/
+SELECT *
+FROM EMP
+WHERE DEPTNO<>10;
+/
+SELECT *
+FROM EMP
+WHERE SAL<3000;
+/
+SELECT *
+FROM EMP
+WHERE SAL<=3000;
+/
+SELECT *
+FROM EMP
+WHERE SAL>1600;
+/
+SELECT *
+FROM EMP
+WHERE SAL>=1600;
+
+SELECT UNIT_PRICE
+FROM PO_LINES_ALL
+WHERE UNIT_PRICE>2000;
+/
+2)Logical Operartors:
+*********************
+
+AND OPERATOR:
+*************
+-->If both the conditions are true then it returns the result as TRUE.
+-->If both the conditions or if any one condition is false then it returns the result as FALSE.
+EX:
+***
+A B  RESULT
+T T  T
+T F  F
+F T  F
+F F  F
+
+-->Display the details of employees whose salary is greater than 2000 and also whose salary is lessthan 5000.
+SELECT * FROM EMP WHERE SAL>2000 AND SAL<5000;
+-->Display the details of employees whose deptno is 10 and also whose job is CLERK
+SELECT * FROM EMP WHERE DEPTNO=10 AND JOB='CLERK';
+-->Display the details of employees whose job is SALESMAN and also whose SAL is greater than 1200.
+select * from emp where job = 'SALESMAN' and sal > 1200;
+
+OR OPERATOR:
+************
+-->Atleast one condition is true then it returns the result as TRUE.
+-->If both the conditions are TRUE then it returns the result as TRUE
+-->If both the conditions are FALSE then it returns the result as FALSE.
+
+A B RESULT 
+T T   T
+T F   T
+F T   T
+F F   F
+
+EX:
+***
+SELECT * FROM EMP WHERE JOB='MANAGER' OR DEPTNO=20;
+SELECT * FROM EMP WHERE DEPTNO=10 OR DEPTNO=20;
+select * from emp where (job='CLERK' or job='SALESMAN' or job='ANALYST');
+SELECT ENAME FROM EMP WHERE JOB='CLERK' OR JOB='SALESMAN';
+/
+SELECT *
+FROM   EMP
+WHERE  DEPTNO=30 OR SAL<3000
+/
+SELECT *
+FROM EMP
+WHERE JOB='SALESMAN' OR DEPTNO=10;
+/
+SELECT *
+FROM EMP
+WHERE ENAME='CLARK' OR SAL>2000;
+/
+SELECT TYPE_LOOKUP_CODE,SEGMENT1 PO_NUM
+FROM PO_HEADERS_ALL
+WHERE TYPE_LOOKUP_CODE='STANDARD'
+OR SEGMENT1=500;
+/
+SELECT *
+FROM  OE_ORDER_HEADERS_ALL
+WHERE HEADER_ID=39441 OR ORDER_NUMBER=4721;
+/
+NOT OPERATOR:
+*************
+>Specified condition must be false.
+EX:
+***
+SELECT * FROM EMP WHERE NOT DEPTNO=20;
+SELECT * FROM EMP WHERE NOT ENAME='KING'; 
+SELECT * FROM EMP WHERE NOT EMPNO=7782;
+SELECT * FROM EMP WHERE DEPTNO!=10;
+SELECT * FROM EMP WHERE DEPTNO!=10 AND   JOB!='MANAGER';
+/
+SELECT *
+FROM EMP
+WHERE NOT DEPTNO=20;
+/
+SELECT *
+FROM EMP
+WHERE NOT JOB='MANAGER';
+/
+SELECT *
+FROM EMP
+WHERE JOB!='MANAGER';
+/
+SELECT *
+FROM EMP
+WHERE JOB<>'MANAGER';
+/
+SELECT TYPE_LOOKUP_CODE
+FROM PO_HEADERS_ALL
+WHERE NOT TYPE_LOOKUP_CODE='STANDARD';
+/
+4)Special Operators(In,Like,Between,Is NULL):
+****************************************
+-->Special operators are used to frame the conditions while retrieving or manipulating data.
+-->To improve the performance.
+
+IN/NOT IN:
+**********
+-->It is used to pick the values with in the given list.
+-->It returns true if value is available in given list of values.
+-->It supports with all types of data.
+
+EX:
+**** 
+SELECT * FROM EMP WHERE DEPTNO IN (10,20,30);
+SELECT * FROM EMP WHERE JOB IN ('CLERK','SALESMAN');
+SELECT * FROM EMP WHERE SAL IN (2000,3000,850);
+SELECT * FROM EMP WHERE DEPTNO IN (10,20,30)
+SELECT * FROM EMP WHERE ENAME IN ('KING','BLAKE','CLARK');
+SELECT * FROM EMP WHERE HIREDATE IN ('17-NOV-1981','01-MAY-1981','09-JUN-1981') AND   DEPTNO IN (10,30) AND   JOB='MANAGER';
+/
+SELECT *
+FROM EMP
+WHERE EMPNO IN (7839,7698,100);
+/
+SELECT *
+FROM EMP
+WHERE SAL IN (3000,1600);
+/
+SELECT *
+FROM EMP
+WHERE HIREDATE IN ('17-NOV-1981','01-MAY-1981');
+/
+SELECT INVOICE_CURRENCY_CODE
+FROM AP_INVOICES_ALL
+WHERE INVOICE_CURRENCY_CODE IN ('USD','EUR');
+/
+SELECT *
+FROM RA_CUSTOMER_TRX_ALL
+WHERE CUSTOMER_TRX_ID IN (1001,1503);
+/
+SELECT *
+FROM EMP
+WHERE JOB NOT IN ('SALESMAN','CLERK');
+/
+SELECT TYPE_LOOKUP_CODE
+FROM PO_HEADERS_ALL
+WHERE TYPE_LOOKUP_CODE NOT IN ('STANDARD','RFQ');
+/
+DML operations:
+***************
+CREATE TABLE EMP_BKP AS SELECT * FROM EMP;
+/
+SELECT *
+FROM EMP_BKP
+WHERE EMPNO IN (7839,7698);
+/
+UPDATE EMP_BKP
+SET    SAL=10000
+WHERE  EMPNO IN (7839,7698);
+/
+SELECT * FROM EMP_BKP;
+/
+CREATE TABLE EMP1 AS SELECT * FROM EMP;
+/
+UPDATE EMP1 SET SAL=SAL+100 WHERE ENAME IN ('KING','SCOTT');
+
+DELETE FROM EMP1 WHERE DEPTNO IN (10,20);
+/
+DELETE FROM EMP_BKP
+WHERE EMPNO IN (7839,7698);
+/
+SELECT *
+FROM EMP_BKP;
+/
+NOT IN:
+********
+-->NOT IN operator is quite opposite to IN operator.
+
+SELECT * FROM EMP1 WHERE ENAME NOT IN  ('KING','SCOTT');
+SELECT * FROM EMP1 WHERE EMPNO NOT IN(712,7369,7782);
+
+UPDATE EMP1 SET SAL=SAL+200 WHERE EMPNO NOT IN (7788,7902);
+DELETE FROM EMP1 WHERE ENAME NOT IN ('KING','BLAKE');
+
+
+BETWEEN/NOT BETWEEN
+********************
+-->It is used to pick the values with in the specified range.
+-->Returns true if value specified is with in the specified range.
+-->It supports with numbers and date values.
+EX:
+***
+-->All employee records are fetched whose salary is between 1000 and 2000.
+1)SELECT * FROM EMP WHERE SAL BETWEEN 1000 AND 2000;
+
+Whenever lower bound value is larger than upper bound then it shows "no rows selected".
+2)SELECT * FROM EMP WHERE SAL BETWEEN 2000 AND 1000;
+3)SELECT * FROM EMP WHERE JOB BETWEEN 'MANAGER' AND 'SALESMAN'; --Improper data
+4)SELECT ENAME,JOB,SAL,HIREDATE FROM EMP WHERE HIREDATE BETWEEN '17-DEC-81' AND '20-JUN-83';
+/
+SELECT *
+FROM EMP
+WHERE SAL BETWEEN 1000 AND 3000;
+/
+01-JAN-1980 TO 31-DEC-1982
+/
+SELECT *
+FROM EMP
+WHERE HIREDATE BETWEEN '01-JAN-1980' AND '31-DEC-1982';
+/
+SELECT INVOICE_AMOUNT
+FROM AP_INVOICES_ALL
+WHERE INVOICE_AMOUNT BETWEEN 1000 AND 100000;
+/
+SELECT INVOICE_DATE
+FROM AP_INVOICES_ALL
+WHERE INVOICE_DATE BETWEEN '01-JAN-2000' AND '31-DEC-2006';
+/
+
+5)UPDATE EMP_BKP SET SAL=SAL+1000 WHERE HIREDATE BETWEEN '30-jun-1981' AND '31-dec-1981';
+
+NOT BETWEEN:
+************
+-->Returns TRUE if value specified is not within the specified range.
+-->It supports numbers and date values
+1)SELECT * FROM EMP WHERE SAL NOT BETWEEN 1000 AND 2000;
+2)UPDATE EMP1 SET SAL=SAL+1000 WHERE HIREDATE NOT BETWEEN '30-jun-1981' AND '31-dec-1981';
+
+LIKE/NOT LIKE:
+**************
+-->It is used to search for a pattern in given input supports with character data only.
+-->It uses two specal characters.
+   a) % represents zero or more characters.
+   b)_(Underscore) -- It represents one character only.
+
+SYNTAX:
+*******
+SELECT * FROM <TABLENAME> WHERE <COLUMNNAME> LIKE '<VALUE>'
+EX:
+***
+-->List the employees whose name start with 'A'
+1)SELECT * FROM EMP WHERE ENAME LIKE 'A%';
+-->List the employees whose name END with 'S'
+2)SELECT * FROM EMP WHERE ENAME LIKE '%S';
+-->List the employees whose name got 5 letters.
+3)SELECT * FROM EMP WHERE ENAME LIKE '_____';	
+  select ename from emp where length(ename)=5; 
+-->List the employees whose name got 'LL'
+4)SELECT * FROM EMP WHERE ENAME LIKE '%LL%';
+-->Display the employees whise names are having second letter as 'L' in EMP table
+5)SELECT * FROM EMP WHERE ENAME LIKE '_L%';
+6)display all those employees whose names are starting with J and Ending with S?
+SELECT * FROM emp WHERE ename LIKE 'J%S';
+7)display all those employees whose names contain A.
+SELECT * FROM emp WHERE ename LIKE '%A%';
+8)display ename,sal of all those employees whose salary ends with 00?
+SELECT ename,sal FROM emp WHERE sal LIKE '%00';
+9)display ename,job,sal,hiredate of all those employees who have been hired in those months which starts with A?
+SELECT ename,job,sal,hiredate FROM emp WHERE hiredate LIKE '___A%';
+10)display ename,job,sal of all those employees whose names contain A and salary ends with 00?
+SELECT ename,job,sal FROM emp WHERE ename LIKE '%A%' AND sal LIKE '%00';
+11)SELECT * FROM EMP WHERE HIREDATE LIKE '%JAN%';
+12)SELECT * FROM EMP WHERE JOB LIKE '_____';
+/
+--List the OBJECTS whose name start with 'C'
+SELECT OBJECT_NAME
+FROM ALL_OBJECTS
+WHERE OBJECT_NAME LIKE 'C%'
+/
+--List the OBJECTS whose name end with 'S'
+SELECT OBJECT_NAME
+FROM ALL_OBJECTS
+WHERE OBJECT_NAME LIKE '%S';
+/
+SELECT OBJECT_NAME
+FROM ALL_OBJECTS
+WHERE OBJECT_NAME LIKE '%A%';
+/
+NOT LIKE OPERATOR:
+******************
+SYNTAX:
+*********
+SELECT * FROM <TABLENAME> WHERE <COLUMNNAME> NOT LIKE '<VALUE>';
+EX:
+***
+SELECT * FROM EMP WHERE ENAME NOT LIKE '%S';
+SELECT * FROM EMP WHERE ENAME NOT LIKE '_L%';
+SELECT * FROM EMP WHERE ENAME NOT LIKE 'S%';
+SELECT * FROM EMP WHERE HIREDATE NOT LIKE '%JAN%';
+SELECT * FROM EMP WHERE ENAME LIKE '%R_';
+SELECT * FROM EMP WHERE ENAME NOT LIKE '%LL%';
+ 
+IS NULL/IS NOT NULL:
+*********************
+-->It is used to compare null values.
+-->It is used to search for NULL values in the given input.
+-->Supports with all types of data.
+
+SYNTAX:
+*******
+SELECT * FROM <TABLENAME> WHERE <mCOLUMNNAME> IS NULL;
+EX:
+****
+-->List the employees who are not having comission.
+SELECT * FROM EMP WHERE COMM IS NULL;
+
+SELECT * FROM EMP WHERE SAL IS NULL; --NOW ROWS SELECTED
+IS NOT NULL:
+************
+-->Used to search for NOT NULL values in the in the given input.
+-->It supports with all types of data.
+
+SYNTAX:
+*******
+SELECT * FROM <TABLENAME> WHERE <COLUMNAME> IS NOT NULL;
+
+EX:
+*****
+-->List the employees who are having comission.
+SELECT * FROM EMP WHERE COMM IS NOT NULL;
+SELECT * FROM EMP WHERE SAL IS NOT NULL;
+SELECT * FROM EMP WHERE MGR IS NOT NULL;
+
+
+
+
+
+
+

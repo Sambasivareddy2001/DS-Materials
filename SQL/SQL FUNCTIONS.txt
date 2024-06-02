@@ -1,0 +1,1362 @@
+Functions:
+**********
+-->To perform a task and must return value.
+-->Oracle supports two types of functons.They are 
+a)Pre-Define/Built In Functions (Use in SQL AND PL/SQL)
+b)User Define Functions (Use in PL/SQL)
+
+Pre-Define Functions:
+*********************
+-->These are classified into two categories.
+
+Single Row Functions (Scalar Functions)
+Multiple Row Functions (Grouping Functions)
+
+Single Row Functions:
+*********************
+-->These functions are return a single row or group of values.
+
+a)Numeric or Number Functions.
+b)String Functions
+c)Date Functions
+d)Conversion Functions
+
+Numeric Functions:
+******************
+-->Numeric functions are used to perform operations on numbers.
+-->They accept numeric values as input and return numeric values as output.
+
+a)POWER(M,N):
+*************
+-->It gives the power of given expression.
+
+SYNTAX:
+********
+POWER(M,N)
+M-->VALUE
+N-->EXPONENT
+
+EX:
+***
+SELECT POWER(20,2) FROM DUAL;
+SELECT POWER(2,4),POWER(4,8),POWER(0,0),POWER(NULL,NULL) FROM DUAL;
+
+B)SQRT(M)
+*********
+-->It gives suare root of given number.
+-->Input value must be positive.
+
+EX:
+***
+SELECT SQRT(9) FROM DUAL;
+SELECT SQRT(2),SQRT(8),SQRT(0),SQRT(NULL) FROM DUAL;
+
+C)MOD():
+********
+-->gives remainder after M/N operation.
+
+SYNTAX:
+*******
+MOD(M,N)
+M-->VALUE
+N-->DIVISOR
+
+
+EX:
+***
+SELECT MOD(5,2) FROM DUAL;
+SELECT MOD(1,5),MOD(5,2),MOD(0,0),MOD(NULL,NULL) FROM DUAL;
+
+D) CEIL(VALUE):
+***************
+-->It displays next highest value.
+-->It returns a value which is greater than or equal to given value.
+
+SYNTAX:
+*******
+CEIL(NUMBER)
+
+
+EX:
+***
+SELECT CEIL(8) FROM  DUAL;
+SELECT CEIL(6.2) FROM DUAL;
+SELECT CEIL(12.6) FROM DUAL;
+SELECT CEIL(4.4),CEIL(-5.1),CEIL(0),CEIL(NULL) FROM DUAL;
+SELECT CEIL(2),CEIL(2.01),CEIL(23.65),CEIL(245.21),CEIL(4567.78),CEIL(-23.1),CEIL(-456.90),CEIL(-3451.091) FROM DUAL;
+
+SELECT CEIL(-123.45),CEIL(+123.45),CEIL(123.45) FROM DUAL;
+SELECT CEIL(-123),CEIL(+123),CEIL(123) FROM DUAL;
+
+
+CREATE TABLE XX_CEIL(
+FEE NUMBER
+);
+/
+INSERT INTO XX_CEIL VALUES (14);
+/
+INSERT INTO XX_CEIL VALUES (19.8);
+/
+INSERT INTO XX_CEIL VALUES (100.01);
+/
+INSERT INTO XX_CEIL VALUES (148.92);
+/
+INSERT INTO XX_CEIL VALUES (1120.67);
+/
+COMMIT;
+/
+SELECT FEE,CEIL(FEE) FROM XX_CEIL;
+
+SELECT INVOICE_AMOUNT,CEIL(INVOICE_AMOUNT)
+FROM AP_INVOICES_ALL;
+
+E)FLOOR():
+**********
+-->It displays the next lowest value.
+-->The purpose of FLOOR function is it returns the integer values which is equals to the specified number or less than the specified number.
+
+SYNTAX:
+*******
+FLOOR(NUMBER)
+
+
+EX:
+***
+SELECT FLOOR(12.85) FROM DUAL;
+SELECT FLOOR(31.1) FROM DUAL;
+SELECT FLOOR(18.980) FROM DUAL;
+SELECT FLOOR(1234.47) FROM DUAL;
+
+SELECT FLOOR(-123.45),FLOOR(+123.45),FLOOR(123.45) FROM DUAL;
+SELECT FLOOR(-123),FLOOR(+123),FLOOR(123) FROM DUAL;
+SELECT FLOOR(2),FLOOR(2.90),FLOOR(13.12),FLOOR(45.7),FLOOR(980.213),FLOOR(5678.213),FLOOR(-123),FLOOR(-123.21),FLOOR(-1456.765) FROM DUAL;
+
+SELECT FEE,FLOOR(FEE)
+FROM XX_CEIL;
+
+SELECT FEE,FLOOR(FEE),CEIL(FEE)
+FROM XX_CEIL
+
+SELECT INVOICE_AMOUNT,FLOOR(INVOICE_AMOUNT),CEIL(INVOICE_AMOUNT)
+FROM AP_INVOICES_ALL;
+
+
+F)ROUND(M,N):
+*************
+-->It rounds the value upto given number of position.
+-->If check the condition.
+-->Rounds value to some specified decimal.
+
+SYNTAX:
+*******
+ROUND(NUMBER,[DECIMAL PLACES])
+
+EX:
+***
+SELECT ROUND(12.234) FROM DUAL; --12
+SELECT ROUND(12.234,2) FROM DUAL; --12.23
+SELECT ROUND(12.567) FROM DUAL;  --13
+SELECT ROUND(123.567,2) FROM DUAL; 
+SELECT ROUND(123.567,-1) FROM DUAL;
+SELECT ROUND(123.567,-2) FROM DUAL;
+SELECT ROUND(123.567,-3) FROM DUAL;
+
+SELECT FEE,ROUND(FEE)
+FROM XX_CEIL;
+
+SELECT ROUND(123.45),ROUND(123.45,0),ROUND(123.45,1),ROUND(123.45,2),ROUND(123.45,3) FROM DUAL;
+SELECT ROUND(123.45,-1),ROUND(123.45,-2),ROUND(123.45,-3),ROUND(123.45,-4),ROUND(123.45,-5) FROM DUAL
+
+G)TRUNC(M,N):
+*************
+-->Its work similar to that of round,but it won't check the condition.
+-->Return a number with some digits truncated.
+SYNTAX:
+*******
+TRUNC(NUMBER,DECIMAL PLACES)
+
+EX:
+****
+SELECT TRUNC(12.678) FROM DUAL;
+SELECT TRUNC(12.678,2) FROM DUAL;
+
+SELECT ROUND(12.67,2),TRUNC(12.67,2) FROM DUAL;
+SELECT TRUNC(123.4),TRUNC(123.45,0),TRUNC(123.45,1),TRUNC(123.45,2),TRUNC(123.45,3) FROM DUAL;
+SELECT TRUNC(123.45,-0),TRUNC(123.45,-1),TRUNC(123.45,-2),TRUNC(123.45,-3),TRUNC(123.45,-4) FROM DUAL;
+
+
+SELECT INVOICE_AMOUNT,CEIL(INVOICE_AMOUNT),FLOOR(INVOICE_AMOUNT),ROUND(INVOICE_AMOUNT),TRUNC(INVOICE_AMOUNT) FROM AP_INVOICES_ALL;
+
+H)ABS:
+********
+-->It gives the absolute value of n.
+-->If n is -ve it converts to positive.
+
+SYNTAX:
+*******
+	ABS(NUMBER)
+
+EX:
+***
+SELECT ABS(-12) FROM DUAL;
+SELECT ABS(10),ABS(-5),ABS(0),ABS(NULL) FROM DUAL;
+SELECT ENAME,SAL,COMM,ABS(COMM-SAL) FROM EMP;
+
+
+I)SIGN:
+********
+-->If n is +ve gives 1
+-->If n is -ve gives -1
+-->If n is 0 gives 0
+
+SYNTAX:
+*******
+SIGN(NUMBER)
+
+
+EX:
+***
+SELECT SIGN(2*9) FROM DUAL;
+SELECT SIGN(9*-2) FROM DUAL;
+SELECT SIGN(8-4*2) FROM DUAL;
+
+SELECT SAL,SIGN(SAL) FROM EMP;
+
+SELECT COMM-SAL,SIGN(COMM-SAL) FROM EMP;
+
+SELECT COMM,SIGN(COMM) FROM EMP;
+
+STRING FUNCTIONS OR CHARACTER FUNCTIONS:
+****************************************
+-->String or Character functions are used to manipulate text strings.They accept strngs or characters as input and return both character and number values as output.
+
+
+ASCII(C)
+**********
+
+EX:
+***
+SELECT ASCII('A') FROM DUAL;
+SELECT ASCII('a') FROM DUAL;
+SELECT ASCII('0') FROM DUAL;
+
+ 
+UPPER():
+********
+-->It is used to convert the string into upper or capital characters.
+
+SYNTAX:
+********
+UPPER(STRING)
+
+EX:
+***
+SELECT UPPER('abcd') FROM DUAL;
+SELECT UPPER('oracle') FROM DUAL;
+SELECT UPPER('ORACLE') FROM DUAL;
+SELECT UPPER('computer')FROM DUAL;
+SELECT ENAME,UPPER(ENAME) FROM EMP;
+
+select item_description,upper(item_description)
+from po_lines_all;
+
+LOWER():
+********
+-->It is used to convert the strng into lower characters.
+
+SYNTAX:	
+*******
+LOWER(STRING)
+
+EX:
+***
+SELECT LOWER('ORACLE') FROM DUAL;
+SELECT ENAME,LOWER(ENAME) FROM EMP;
+
+SELECT INVOICE_CURRENCY_CODE,LOWER(INVOICE_CURRENCY_CODE)
+FROM AP_INVOICES_ALL
+
+UPDATE EMP1 SET ENAME=LOWER(ENAME) WHERE JOB='SALESMAN';
+
+INITCAP():
+**********
+-->It is used to convert the first character into upper character in a given strng.
+
+SYNTAX:
+*******
+INITCAP(STRING)
+
+EX:
+***
+SELECT INITCAP('oracle') FROM DUAL;
+SELECT INITCAP('oraCLE') FROM DUAL;
+SELECT INITCAP('x y z') FROM DUAL;
+SELECT INITCAP('xy z p qr') FROM DUAL;
+SELECT ENAME,INITCAP(ENAME) FROM EMP;
+select party_type,initcap(party_type)
+from hz_parties;
+
+LENGTH():
+*********
+-->It is used to display the number of characters in a given string.
+
+SYNTAX:
+*******
+LENGTH(STRING)
+
+EX:
+***
+SELECT LENGTH('ORACLE') FROM DUAL;
+SELECT LENGTH(ENAME) FROM EMP;
+SELECT LENGTH('ASDFGHJUIL%)(^JIO') FROM DUAL;
+SELECT LENGTH('ASDEFRGT:%"12343098**') FROM DUAL;
+SELECT ENAME,LENGTH(ENAME) FROM EMP;
+SELECT * FROM EMP WHERE LENGTH(ENAME)=4;
+
+REVERSE():
+*********
+-->It is used to reverse the given string.
+
+SYNTAX:
+*******
+REVERSE(STRING)
+
+EX:
+***
+SELECT REVERSE('ORACLE') FROM DUAL;
+SELECT REVERSE(ENAME) FROM EMP;
+SELECT ENAME,REVERSE(ENAME) FROM EMP;
+SELECT * FROM EMP WHERE REVERSE(ENAME)=4;
+
+CONCAT():
+*********
+-->It is used to merge the two strings and we have to use '||' symbol while merge the two strings.
+
+SYNTAX:
+********
+CONCAT(STRING1,STRING2)
+
+EX:
+***
+SELECT CONCAT('ORACLE','PVT LINMITED') FROM DUAL;
+SELECT CONCAT('ASDF','PQRS') FROM DUAL;
+SELECT CONCAT('ORACLE','SERVER') FROM DUAL;
+SELECT 'ORACLE'||'PVT LIMITED' FROM DUAL;
+
+SELECT CONCAT('ORACLE','INDIA','LTD') FROM DUAL;
+--It will throw the error (Invalid number of arguments)
+
+SELECT CONCAT(CONCAT('ORACLE','INDIA'),'LTD') FROM DUAL;
+
+--To overcome the above issue by using || operator.
+
+SELECT 'ORACLE'||'INDIA'||'LTD' FROM DUAL;
+
+/
+select 'oracle'||'apps'||'india' from dual;
+/
+select 'oracle'||' '||'apps'||' '||'india' from dual;
+/
+SELECT 'ORACLE'||' '||'INDIA'||' '||'LTD' FROM  DUAL;
+/
+SELECT ENAME||' ITS WORKING AS '||JOB
+FROM EMP;
+
+LTRIM():
+********
+-->It is used to remove the character from left end of the given string,if the character is found.
+-->To remove unwanted spaces or unwanted characters from left side of the given string.
+
+SYNTAX:
+********
+LTRIM(STRING1[,STRING2])
+
+EX:
+***
+SELECT LTRIM('    ORACLE') FROM DUAL;
+SELECT LTRIM('ORACLE','O') FROM DUAL;
+SELECT LTRIM('ORACLE','o') FROM DUAL;
+SELECT LTRIM('ORACLE','ORA') FROM DUAL;
+SELECT LTRIM('OOOOOORACLE','O') FROM DUAL;
+SELECT LTRIM('OOOOOORACLEOOOOINDIAOOOO','O') FROM DUAL;
+SELECT LTRIM('OOOOORACLEOOOOINDIAOOOO','OO') FROM DUAL;
+SELECT LTRIM('ORACLE','A') FROM DUAL;
+SELECT LTRIM('XXXXXXORACLE','X') FROM DUAL;
+SELECT LTRIM('123ORACLE','123') FROM DUAL;
+
+SELECT LTRIM(ENAME) FROM EMP;
+
+RTRIM():
+********
+-->It is used to remove the character from right end of the given string,if the character is found.
+-->To remove unwanted spaces or unwanted characters from right side of the given string.
+
+SYNTAX:
+********
+RTRIM(STRING1[,STRING2])
+
+EX:
+***
+SELECT RTRIM('ORACLE','O') FROM DUAL;
+SELECT RTRIM('ORACLE','CL') FROM DUAL;
+SELECT RTRIM('ORACLE','CLE') FROM DUAL;
+SELECT RTRIM('ORACLE    ') FROM DUAL;
+SELECT RTRIM('ORACLE','E') FROM DUAL;
+SELECT RTRIM('ORACLE','e') FROM DUAL;
+SELECT RTRIM('ORACLEXXXXXXX','X') FROM DUAL;
+
+SELECT RTRIM(ENAME) FROM EMP;
+SELECT RTRIM(LTRIM('XXXXXXORACLEXXX','X'),'X') FROM DUAL;
+SELECT RTRIM(LTRIM('**********ORACLE***********','*'),'*') FROM DUAL;
+SELECT LTRIM(RTRIM('**********ORACLE***********','*'),'*') FROM DUAL;
+
+
+TRIM():
+*******
+-->It is used to remove the characters from both sides of a given string.
+-->To remove unwanted spaces or unwanted characters from both sides of the given string.
+
+SYNTAX:
+*******
+TRIM('TRIMMING CHAR' FROM 'STRING')
+
+EX:
+***
+SELECT TRIM('X' FROM 'XXXXXXORACLEXXXX') FROM DUAL;
+SELECT TRIM(BOTH 'X' FROM 'XXXXXXORACLEXXXX') FROM DUAL;
+SELECT TRIM('    ORACLE') FROM DUAL;
+SELECT TRIM(LEADING ' ' FROM '       ORACLE') FROM DUAL;
+SELECT TRIM('ORACLE     ') FROM DUAL;
+SELECT TRIM(TRAILING ' ' FROM 'ORACLE     ') FROM DUAL;
+SELECT TRIM('       ORACLE     ') FROM DUAL;
+SELECT LTRIM(RTRIM('OOOOOORACLEOOOOOO','O'),'O') FROM DUAL;
+SELECT LTRIM(RTRIM('OOOOOORACLEOOOOOO','o'),'o') FROM DUAL;
+
+CREATE TABLE POW
+(
+SNAME VARCHAR2(20)
+);
+
+INSERT INTO POW VALUES('    ABC');
+
+INSERT INTO POW VALUES('ABC     ');
+
+INSERT INTO POW VALUES('    ABC    ');
+
+COMMIT;
+
+SELECT SNAME,LTRIM(SNAME),LENGTH(SNAME),LENGTH(LTRIM(SNAME)) FROM POW;
+
+SELECT SNAME,RTRIM(SNAME),LENGTH(SNAME),LENGTH(RTRIM(SNAME)) FROM POW;
+
+SELECT SNAME,TRIM(SNAME),LENGTH(SNAME),LENGTH(TRIM(SNAME)) FROM POW;
+
+/
+LPAD():
+*******
+-->It is used to add the character from left end.
+-->-->The LPAD() function pads the left side of a string with a specific set of characters.
+-->To fill a string with specific character on left side of the given string.
+
+SYNTAX:
+*******
+LPAD(STRING1,LENGTH,STRING2)
+
+EX:
+****
+SELECT LPAD('ORACLE',8,'*') FROM DUAL;
+SELECT LPAD('ORACLE',10) FROM DUAL; --Third argument is optional.
+SELECT LPAD('ORACLE',20,'*') FROM DUAL;
+SELECT ENAME,LPAD(ENAME,10,'*') FROM EMP;
+SELECT ENAME,LENGTH(LPAD(ENAME,10,'*')) FROM EMP;
+
+RPAD():
+*******
+-->It is used to add the character from right end.
+-->The RPAD() function pads the right side of a string with a specific set of characters.
+-->To fill a string with specific character on right side of the given string.
+
+SYNTAX:
+*******
+RPAD(STRING1,LENGTH,STRING2)
+
+EX:
+****
+SELECT RPAD('ORACLE',8,'*') FROM DUAL;
+SELECT ENAME,RPAD(ENAME,10,'*') FROM EMP;
+SELECT ENAME,LENGTH(RPAD(ENAME,10,'*')) FROM EMP;
+
+--The below query using both LPAD and RPAD
+
+select rpad(lpad(ename,10,'*'),15,'*') from emp;
+SELECT RPAD(LPAD('ORACLE','15','*'),'25','*') FROM DUAL;
+/
+Requirement O/P:
+****************
+K**G
+B***E
+M****N
+/
+
+select rpad(substr('king',1,1),length('king')-1,'*')||substr('king',-1,1) from dual;
+SELECT ENAME,RPAD(SUBSTR(ENAME,1,1),ROUND(LENGTH(ENAME)*2/2)-1,'*')||SUBSTR(ENAME,-1,1) RESULT FROM EMP;
+/
+
+TRANSLATE():
+************
+-->It is used to translate the character wise in a given string,if the character is found.
+-->To translate a single character with another single character.
+-->It is not posible to translate entire string.
+
+SYNTAX:
+*******
+TRANSLATE(STRING1,STRING2,STRING3)
+
+STRING1 --SOURCE STRING OR INPUT STRING
+STRING2 --Which we want to replace 
+STRING3 --WHAT WE WANT TO TRANSLATE
+
+EX:
+***
+SELECT TRANSLATE('WELCOME','W','A') FROM DUAL;
+SELECT TRANSLATE('WELCOME','COME','PQRS') FROM DUAL;
+SELECT TRANSLATE('ORACLE SERVER','OEL','123') FROM DUAL;
+SELECT TRANSLATE('ORACLE SERVER','OEL','12') FROM DUAL;
+SELECT ENAME,SAL,TRANSLATE(SAL,'0123456789','$b@gH*v#t%') SALARY FROM EMP;
+SQL: 0=$,1=b,2=@,3=g,4=H,5=*,6=v,7=#,8=t,9=%
+
+REPLACE():
+**********
+-->It is used to replace entire string.
+-->To replace one string with another string.
+-->It is not posible to replace more than one strng.
+
+SYNTAX:
+*******
+REPLACE(STRING1,STRING2,STRING3)
+
+STRING1 --SOURCE STRING OR INPUT STRING
+STRING2 --Which we want to replace 
+STRING3 --WHAT WE WANT TO REPLACE	
+
+EX:
+***
+SELECT REPLACE('WELCOME TO ORACLE APPS','ORACLE','PLSQL') FROM DUAL;
+SELECT REPLACE('E BUSINESS SOLUTIONS','BUSINESS','EBS') FROM DUAL;
+SELECT REPLACE('HELLO','ELL','XYZ') FROM DUAL;
+SELECT REPLACE('HELLO','L','ABC') FROM DUAL;
+SELECT REPLACE('ORACLE SERVER','ER','12') FROM DUAL;
+SELECT REPLACE('ORACLE SERVER','AE','12') FROM DUAL;
+SELECT REPLACE('ORACLE INDIA LIMITED','INDIA','PVT') FROM DUAL;
+SELECT ENAME,REPLACE(ENAME,'IN','AB') FROM EMP;
+SELECT REPLACE('ORACLE INDIA LIMITED','ORACLE','GENPACT','INDIA','PVT','LIMITED','LTD') from dual;
+--To overcome this issue we are using decode functions.
+
+DECODE():
+*********
+-->It is used to replace morethan one string.
+-->It works like as a if condition but it does not allow the relatonal operators.
+
+SYNTAX:
+********
+DECODE( expression , compare_value, return_value, [,compare, return_value] ... [,default_return_value] )
+
+EX:
+***
+CREATE TABLE XX_STU_DATA
+(
+SNO NUMBER,
+SNAME VARCHAR2(20),
+MARKS  NUMBER(3),
+RESULT VARCHAR2(20)
+);
+/
+INSERT INTO XX_STU_DATA VALUES (1,'A',90,'P');
+/
+INSERT INTO XX_STU_DATA VALUES (2,'B',70,'P');
+/
+INSERT INTO XX_STU_DATA VALUES (3,'C',50,'P');
+/
+INSERT INTO XX_STU_DATA VALUES (4,'D',20,'F');
+/
+INSERT INTO XX_STU_DATA VALUES (5,'E',90,NULL);
+/
+COMMIT;
+/
+SELECT *
+FROM XX_STU_DATA;
+/
+SELECT SNO,
+       SNAME,
+       MARKS,
+       RESULT,
+       DECODE(RESULT,'P','PASS','F','FAIL','NO RESULT') "RESULT" 
+       FROM XX_STU_DATA;
+/
+SELECT ENAME,JOB,DECODE(JOB,'PRESIDENT','PRS','MANAGER','MGR','CLERK','CLK','SALESMAN','SLMAN',JOB) FROM EMP;
+SELECT ENAME,DEPTNO,DECODE(DEPTNO,10,'TEN',20,'TWENTY',30,'THIRTY',DEPTNO) FROM EMP;
+SELECT ENAME,SAL,DECODE(SAL,1000,'GRADE1',3000,'GRADE2','GRADE3')DECODE_RESULT FROM EMP; 
+/  
+SELECT PO_HEADER_ID,
+       SEGMENT1,
+       TYPE_LOOKUP_CODE,
+       DECODE(TYPE_LOOKUP_CODE,'STANDARD','STD','RFQ','REQUEST','BLANKET','BLK',TYPE_LOOKUP_CODE)
+FROM PO_HEADERS_ALL; 
+/
+CASE(when condition then result else default value)
+***************************************************
+-->It is used to replace more than one string by using relational operator.
+
+SYNTAX:
+*******
+CASE
+    WHEN condition1 THEN result1
+    WHEN condition2 THEN result2
+    WHEN conditionN THEN resultN
+    ELSE result
+END;
+
+EX:
+***
+SELECT SNO,
+       SNAME,
+       MARKS,
+       RESULT,
+       CASE RESULT
+       WHEN  'P' THEN 'PASS'
+       WHEN  'F' THEN 'FAIL'
+       ELSE 'NO RESULT'
+       END  "RESULT"
+       FROM XX_STU_TAB;
+/
+SELECT SNO,
+       SNAME,
+       MARKS,
+       RESULT,
+       CASE 
+       WHEN RESULT='P' AND MARKS>=75 THEN 'DISTINCTION'
+       WHEN RESULT='P' AND MARKS>=60 AND MARKS<75 THEN 'FIRST CLASS'
+       WHEN RESULT='P' AND MARKS>=50 AND MARKS<60 THEN 'SECOND CLASS'
+       WHEN RESULT='P' AND MARKS>=35 AND MARKS<50 THEN 'THIRD CLASS'
+       WHEN RESULT='F' THEN 'FAIL'
+       ELSE 'NO RESULT'
+       END STU_RESULT
+FROM XX_STU_TAB;
+
+/
+SELECT JOB,DEPTNO,
+       CASE WHEN DEPTNO=10 AND JOB='MANAGER' THEN 'MGR' 
+            WHEN DEPTNO=20 AND JOB='ANALYST' THEN 'ALS'
+            WHEN DEPTNO=30 AND JOB='SALESMAN' THEN 'SMAN'
+ELSE JOB 
+END FROM EMP;
+/
+SELECT SAL,
+CASE WHEN SAL BETWEEN 3000 AND 5000  THEN 'MANAGER'
+     WHEN SAL BETWEEN 1000 AND 3000  THEN 'EMPLOYEES'
+     WHEN SAL<960                   THEN  'OFFICE BOYS'
+END  SALCASE    
+FROM EMP;
+/
+SELECT SAL,
+       CASE
+       WHEN SAL BETWEEN 3000 AND 5000 THEN 'HIGH SAL'
+       WHEN SAL BETWEEN 1000 AND 3000 THEN 'MEDIUM SAL'
+       ELSE 'LOW SAL'
+       END RESULT
+FROM EMP ;
+/
+SELECT ENAME,SAL,
+       CASE 
+       WHEN SAL BETWEEN 0    AND 999 THEN 'GRADE1'
+       WHEN SAL BETWEEN 1000 AND 2999 THEN 'GRADE2'
+       WHEN SAL BETWEEN 3000 AND 4999 THEN 'GRADE3'
+       ELSE 'GRADE4'
+       END CASE_RESULT
+FROM EMP;
+/
+SELECT EMPNO,
+        ENAME,
+        JOB,
+        SAL,
+        CASE
+        WHEN SAL BETWEEN 3000 AND 5000 THEN 'MANAGER'
+        WHEN SAL BETWEEN 1000 AND 2999 THEN 'EMPLOYEES'
+        ELSE 'CLERK'
+        END
+ FROM EMP; 
+ /
+SELECT ENAME,JOB,SAL,MGR,
+       CASE WHEN MGR IS NULL THEN 'PRESIDENT'
+            WHEN JOB LIKE 'CLE%' THEN 'HR TEAM'
+            WHEN JOB LIKE 'SALES%' THEN 'FINANCE TEAM'
+            ELSE 'OTHER TEAMS'
+        END CASE_RESULT
+FROM EMP;             
+/
+SELECT UPPER(ENAME)UPPER,
+       LOWER(JOB)LOWER,
+       INITCAP(ENAME) INITCAP,
+       LENGTH(ENAME) LENGTH,
+       ENAME||' ITS WORKING AS A'||JOB AS CONCAT,
+       REVERSE(ENAME) REVERSE,
+       LTRIM(ENAME) LTRIM,
+       RTRIM(ENAME) RTRIM,
+       TRIM(ENAME) TRIM,
+       LPAD(ENAME,10,'*')LPAD,
+       RPAD(ENAME,10,'*') RPAD,
+       TRANSLATE(ENAME,'K','I') TRANSLATE,
+       SUBSTR(ENAME,1,1)||SUBSTR(ENAME,-1,1)SUBSTR,
+       DECODE(DEPTNO,10,'TEN',20,'TWENTY',DEPTNO) DECODE_RESULT,
+       CASE 
+            WHEN DEPTNO=10 AND JOB='MANAGER' THEN 'MGR' 
+            WHEN DEPTNO=20 AND JOB='ANALYST' THEN 'ALS'
+            WHEN DEPTNO=30 AND JOB='SALESMAN' THEN 'SMAN'
+       ELSE JOB 
+       END CASE_RESULT
+       FROM EMP;          
+      
+SUBSTR(S,M,N):
+**************
+-->It is used to display the set of characters in a gven string.
+-->It is used to extract a particular portion of a string.
+
+S--String
+M--Position
+N--No.Of.Characters
+
+SYNTAX:
+********
+SUBSTR(STRING1,<STARTING POSITION OF CHAR.>,<LENGTH OF CHAR's>)
+
+EX:
+***
+SELECT SUBSTR('ORACLE',1,3) FROM DUAL;
+SELECT SUBSTR('ORACLE',2,5) FROM DUAL;
+SELECT SUBSTR('ORACLE',4,2) FROM DUAL;
+SELECT SUBSTR('ORACLE',4,4) FROM DUAL;
+SELECT SUBSTR('ORACLE',6,2) FROM DUAL;
+SELECT SUBSTR('ORACLE',2) FROM DUAL;
+SELECT SUBSTR('ORACLE SERVER',0,4) FROM DUAL;
+SELECT SUBSTR('ORACLE SERVER',-1) FROM DUAL;
+SELECT SUBSTR('ORACLE SERVER',-9,5) FROM DUAL;
+SELECT SUBSTR('ORACLE',-1,3) FROM DUAL;
+SELECT SUBSTR('ORACLE',-1,2) FROM DUAL;
+SELECT SUBSTR('ORACLE',-2,5) FROM DUAL;
+SELECT SUBSTR('ORACLE',-3,2) FROM DUAL;
+
+SELECT ENAME,SUBSTR(ENAME,1,4),ENAME,SUBSTR(ENAME,1,LENGTH(ENAME)) FROM EMP;
+
+INSTR(S,C,M,N):
+***************
+-->It is used to find the postion of a given character.
+-->Returns Occurence postion of a character in the given string
+
+S--String
+C--Character --which is the character we wnat find out the position
+M--Position
+N--Occurance  --we want find out the occurance(repeated characters)
+
+
+SYNTAX:
+*******
+INSTR(STRING1,STRING2,<STARTING POSITION OF CHAR.>,<OCCURENCE POSITION OF CHAR.>)
+
+EX:
+***
+SELECT INSTR('HELLO WELCOME','O') FROM DUAL;  
+SELECT INSTR('HELLO WELCOME','Z') FROM DUAL;-----> 0
+SELECT INSTR('HELLO WELCOME','O',1,2) FROM DUAL;-----11
+SELECT INSTR('HELLO WELCOME','E',5,2) FROM DUAL;-------13
+SELECT INSTR('HELLO WELCOME','E',1,4) FROM DUAL;--------0
+SELECT INSTR('HELLO WELCOME','E',-1,3) FROM DUAL;--------2
+SELECT INSTR('HELLO WELCOME','L',-4,3) FROM DUAL;-------3
+SELECT INSTR('HELLO WELCOME','L',-6,3) FROM DUAL;----------0
+
+SELECT INSTR('WELCOME','C',1) FROM DUAL; --4
+SELECT INSTR('WELCOME','C',2) FROM DUAL; --4
+SELECT INSTR('WELCOME','C',3) FROM DUAL; --4
+SELECT INSTR('WELCOME','C',4) FROM DUAL; --4
+SELECT INSTR('WELCOME','C',5) FROM DUAL; --0
+SELECT INSTR('WELCOME','C',15) FROM DUAL; --0
+
+SELECT INSTR('ORACLE SERVER','O',1,1) FROM DUAL; --1
+SELECT INSTR('ORACLE SERVER','X',1,1) FROM DUAL; --0
+SELECT INSTR('ORACLE SERVER','E',1,1) FROM DUAL; --6
+SELECT INSTR('ORACLE SERVER','E',1,2) FROM DUAL; --9
+SELECT INSTR('ORACLE SERVER','E',1,3) FROM DUAL; --12
+SELECT INSTR('ORACLE SERVER','E',5,3) FROM DUAL; --12
+SELECT INSTR('ORACLE SERVER','E',7,2) FROM DUAL; --12
+SELECT INSTR('ORACLE SERVER','E',7,3) FROM DUAL; --0
+SELECT INSTR('ORACLE SERVER','E',7) FROM DUAL;   --9
+SELECT INSTR('ORACLE SERVER','E') FROM DUAL;     --6
+SELECT INSTR('ORACLE SERVER','E',-1) FROM DUAL;  --12
+SELECT INSTR('ORACLE SERVER','E',-1,2) FROM DUAL; --9
+
+DATE FUNCTONS:
+**************
+SYSDATE:
+********
+-->It is used to display the server system date.
+
+EX:
+***
+SELECT SYSDATE FROM DUAL;
+SELECT SYSDATE10 FROM DUAL;
+SELECT SYSDATE-10 FROM DUAL;
+
+CURRENT DATE:
+*************
+-->It is used to display the client system date.
+
+EX:
+***
+SELECT CURRENT_DATE FROM DUAL;
+
+ADD_MONTHS:
+***********
+-->It is used to add or subtract number of months for a given date.
+
+SYNTAX:
+*******
+ADD_MONTHS(DATE,<NO.OF MONTHS>)
+
+EX:
+****
+SELECT ADD_MONTHS(SYSDATE,6) FROM DUAL;
+SELECT ADD_MONTHS(SYSDATE,-2) FROM DUAL;
+SELECT HIREDATE,ADD_MONTHS(SYSDATE,1) FROM EMP;
+
+MONTHS_BETWEEN():
+*****************
+-->It is used to display the number of months between two dates.
+
+SYNTAX:
+*******
+MONTHS_BETWEEN(DATE1,DATE2)
+
+EX:
+***
+SELECT MONTHS_BETWEEN('05-JAN-81','05-JAN-80') FROM DUAL;----- 12
+SELECT MONTHS_BETWEEN('05-JAN-80','05-JAN-81') FROM DUAL;----- -12
+SELECT MONTHS_BETWEEN(SYSDATE,HIREDATE) FROM EMP;
+SELECT ROUND(MONTHS_BETWEEN(SYSDATE,HIREDATE)) FROM EMP;
+SELECT EMPNO,ENAME,SAL,HIREDATE,MONTHS_BETWEEN(SYSDATE,HIREDATE)MON_EXP,MONTHS_BETWEEN(SYSDATE,HIREDATE)/12 YEAR_EXP,ROUND(MONTHS_BETWEEN(SYSDATE,HIREDATE)/12)ROUND_EXP
+FROM EMP;
+
+SELECT EMPNO,ENAME,JOB,SAL,HIREDATE,
+       MONTHS_BETWEEN(SYSDATE,HIREDATE),
+       MONTHS_BETWEEN(SYSDATE,HIREDATE)/12,
+       round(MONTHS_BETWEEN(SYSDATE,HIREDATE)/12),
+       MONTHS_BETWEEN(HIREDATE,SYSDATE),
+       MONTHS_BETWEEN(HIREDATE,SYSDATE)/12,
+       round(MONTHS_BETWEEN(HIREDATE,SYSDATE)/12)
+FROM EMP;
+
+
+NOTE:  DATE1 IS ALWAYS GREATER THAN DATE2 OTHERWISE ORACLE RETURNS NAGATIVE VALUE.
+
+
+NEXT_DAY():
+**********
+-->It is used to display the next day date based on the format.
+
+SYNTAX:
+*******
+NEXT_DAY(DATE,'<DAY NAME>')
+
+EX:
+***
+SELECT NEXT_DAY(SYSDATE,'SUN') FROM DUAL;
+
+LAST_DAY():
+***********
+-->it is used to display the last day of the month.
+
+SYNTAX:
+*******
+LAST_DAY(DATE)
+
+EX:
+***
+SELECT LAST_DAY(SYSDATE) FROM DUAL;
+SELECT LAST_DAY(HIREDATE) FROM EMP;
+
+TRUNC:
+******
+
+SELECT TO_CHAR(SYSDATE,'DD-MON-YYYY HH:MI:SS'),TO_CHAR(TRUNC(SYSDATE,'YEAR'),'DD-MON-YYYY HH:MI:SS') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'DD-MON-YYYY HH:MI:SS'),TO_CHAR(TRUNC(SYSDATE,'YYYY'),'DD-MON-YYYY HH:MI:SS') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'DD-MON-YY HH:MI:SS'),TO_CHAR(TRUNC(SYSDATE,'YYYY'),'DD-MON-YY HH:MI:SS') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'DD-MON-YY HH:MI:SS'),TO_CHAR(TRUNC(SYSDATE,'MON'),'DD-MON-YY HH:MI:SS') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'DD-MON-YY HH:MI:SS'),TO_CHAR(TRUNC(SYSDATE,'MM'),'DD-MON-YY HH:MI:SS') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'DD-MON-YY HH:MI:SS'),TO_CHAR(TRUNC(SYSDATE,'MONTH'),'DD-MON-YY HH:MI:SS') FROM DUAL;
+
+
+EXTRACT:
+********
+-->It is used to EXTRACT a portion of a date value.
+
+SYNTAX:
+*******
+
+EXTRACT ((YEAR |MONTH |DAY |HOUR |MINUTE|SECOND | TIMEZONE_HOUR | TIMEZONE_MNUTE | TIMEZONE_REGION | TIMEZONE_ABBREVATION) FROM DATE)
+
+SELECT SYSDATE,EXTRACT(DAY FROM SYSDATE) FROM DUAL
+SELECT SYSDATE,EXTRACT(MONTH FROM SYSDATE) FROM DUAL
+SELECT SYSDATE,EXTRACT(YEAR FROM SYSDATE) FROM DUAL
+SELECT EXTRACT(HOUR FROM TIMESTAMP '2021-07-20 17:48:20') EXTRACT_VALUE FROM DUAL;
+SELECT EXTRACT(MINUTE FROM TIMESTAMP '2021-07-20 17:48:20') EXTRACT_VALUE FROM DUAL;
+SELECT EXTRACT(SECOND FROM TIMESTAMP '2021-07-20 17:48:20') EXTRACT_VALUE FROM DUAL;
+
+
+DATE FORMATS:
+*************
+D--Name of day in a week
+DD --Name of day in a month
+DDD--Name of day in a year
+DY--First 3 characters of the day.
+dy--First 3 characters of the day.
+DAY--Complete characters of the day.
+Day--Complete characters of the day.
+day--Complete characters of the day.
+MM--Number of the months in the year
+MON--First three characters of the month.
+mon--First three characters of the month.
+MONTH--Complete characters of the month.
+Month--Complete characters of the month.
+month--Complete characters of the month.
+Y--Last digit of the year
+YY--Last two digits of the year.
+YYY--Last three digits of the year.
+YYYY--Four digits of the year.
+HH--An hour of the day.
+HH24--24 hours format.
+Mi--Minutes of the year
+SS--Seconds of the year
+FS--Fraction of seconds
+W--Week of the month
+WW--week of the year
+Q--Quarter of the year
+
+
+YEAR FORMATS:
+---------------------------
+	YYYY	-	2022
+	YY	-	22
+	YEAR	-	TWENTY TWENTY two
+	CC	-	CENTUARY 22
+	AD / BC	-	AD YAER / BC YEAR
+
+MONTH FORMAT:
+----------------------------
+MM	- MONTH NUMBER
+MON	- FIRST THREE CHAR FROM MONTH SPELLING
+MONTH	- FULL NAME OF MONTH 
+
+DAY FORMATS:
+-------------------------
+DDD	- DAY OF THE YEAR.
+DD	- DAY OF THE MONTH.
+D	- DAY OF THE WEEK
+	SUN 	- 1
+	MON 	- 2
+	TUE 	- 3
+	WEN 	- 4
+	THU 	- 5
+	FRI 	- 6
+	SAT	- 7
+
+DAY	- FULL NAME OF THE DAY 
+DY	- FIRST THREE CHAR's OF DAY SPELLING
+
+QUATER FORMAT:
+----------------------------
+Q	- ONE DIGIT QUATER OF THE YEAR
+
+	1 - JAN - MAR
+	2 - APR - JUN
+	3 - JUL - SEP
+	4 - OCT - DEC
+
+WEEK FORMAT:
+--------------------------
+WW	- WEEK OF THE YEAR
+W	- WEEK OF MONTH
+
+TIME FORMAT:
+-------------------------
+HH	- HOUR PART
+HH24	- 24 hrs FROMAT
+MI	- MINUTE PART
+SS	- SECONDS PART
+AM / PM 	- AM TME (OR) PM TIME
+
+
+
+Conversion Functions:
+*********************
+TO_CHAR():
+**********
+-->It is used to convert system format into user format.
+-->DATE TYPE TO CHAR TYPE TO DISPLAY DATE IN DIFFERENT FROMAT.
+-->It is used to convert the date value into the varchar2 data type.
+-->It is used to convert the number into character and also it converts the date into character.
+SYNTAX:
+********
+TO_CHAR(DATE,[<FORMAT>])
+
+EX:
+***
+SELECT SYSDATE FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'DD-MON-YYYY HH24:MI:SS') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'DAY') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'Day') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'DD') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'YYYY  YY  YEAR CC AD') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'MM MON MONTH') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'mm mon month') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'DDD DD D DAY DY') FROM DUAL;
+SELECT * FROM EMP WHERE TO_CHAR(HIREDATE,'FMDAY')='FRIDAY';
+SELECT TO_CHAR(SYSDATE,'Q') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'WW W') FROM DUAL;
+SELECT TO_CHAR(SYSDATE,'HH:MI:SS AM') FROM DUAL;
+SELECT TO_CHAR(12346,'99,99,999.99')FROM DUAL;
+SELECT 1234,TO_CHAR(1234,'9999D99')FROM DUAL; --decimal indicator(It return specified position of the decimal character)
+SELECT SAL,TO_CHAR(SAL,'9999D99') FROM EMP;
+SELECT TO_CHAR(5634,'9.9EEEE') FROM DUAL;     --(It returns a numeric value using scientific notation)
+SELECT TO_CHAR(1234567,'99G99G9999') FROM DUAL; --(It returns the specified of the group seperator)
+SELECT TO_CHAR(SAL,'9G999') FROM EMP;
+SELECT TO_CHAR(1234,'L9999') FROM DUAL;  --It returns the specified position of the local currency symbol
+SELECT SAL,TO_CHAR(SAL,'L99999') FROM EMP;
+SELECT SAL,TO_CHAR(SAL,'L99G999D99','NLS_CURRENCY=RS') FROM EMP;
+SELECT -20000,TO_CHAR(-20000,'L99G999D99PR')FROM DUAL;
+SELECT SAL,COMM,COMM-SAL,TO_CHAR(COMM-SAL,'L9999PR') FROM EMP;
+SELECT TO_CHAR(2000,'9999S') FROM DUAL;
+/
+SELECT ENAME,HIREDATE,TO_CHAR(HIREDATE,'DD MON YYYY') FROM EMP;
+/
+SELECT ENAME,HIREDATE,TO_CHAR(HIREDATE,'DD MON YEAR') FROM EMP;
+/
+SELECT ENAME,HIREDATE,TO_CHAR(HIREDATE,'DD MONTH YEAR') FROM EMP;
+/
+SELECT ENAME,HIREDATE,TO_CHAR(HIREDATE,'DDTH MON YEAR') FROM EMP;
+/
+SELECT ENAME,HIREDATE,TO_CHAR(HIREDATE,'DDSPTH MONTH YEAR') FROM EMP;
+/
+SELECT ENAME,HIREDATE,TO_CHAR(HIREDATE,'FMDDSPTH MON YEAR') FROM EMP;
+
+SELECT TO_CHAR(COMM-SAL,'S99999') FROM EMP;
+SELECT TO_CHAR(COMM-SAL,'99999S') FROM EMP;
+
+--TO DISPLAY EMPLOYEE WHO ARE JOINED IN YEAR 1982 BY USING TO_CHAR() FUNCTION ?
+
+SELECT * FROM EMP WHERE TO_CHAR(HIREDATE,'YYYY')=1982;
+
+--TO DISPLAY EMPLOYEE WHO ARE JOINED IN YEAR 1980,1982,1987 BY USING TO_CHAR() FUNCTION ?
+
+SELECT * FROM EMP WHERE TO_CHAR(HIREDATE,'YYYY') IN(1980,1982,1987);
+
+--TO DISPLAY EMPLOYEE WHO ARE JOINED IN FEB,MAY,DEC MONTHS BY USING TO_CHAR() ?
+
+SELECT * FROM EMP WHERE TO_CHAR(HIREDATE,'MON') IN('FEB','MAY','DEC');
+
+--TO DISPLAY EMPLOYEE WHO ARE JOINED IN FEB 1981 BY USING TO_CHAR() ?
+
+SELECT * FROM EMP WHERE TO_CHAR(HIREDATE,'MMYYYY')='021981';
+
+SELECT * FROM EMP WHERE TO_CHAR(HIREDATE,'MONYYYY')='FEB1981';
+
+--TO DISPLAY EMPLOYEE WHO ARE JOINED ON "FRIDAY" BY USING TO_CHAR() ?
+
+SELECT * FROM EMP WHERE TO_CHAR(HIREDATE,'FMDAY')='FRIDAY';
+
+--TO DISPLAY EMPLOYEE ON WHICH DAY EMPLOYEES ARE JOINED ?
+
+SELECT ENAME||' '||'JOINED ON'||' '||TO_CHAR(HIREDATE,'DAY') FROM EMP;
+
+--WHO ARE JOINED IN 2nd QUATER OF 1981 ?
+
+SELECT * FROM EMP WHERE TO_CHAR(HIREDATE,'YYYY')='1981' AND TO_CHAR(HIREDATE,'Q')=2;
+
+TO_DATE():
+**********
+-->It is used to convert user format into system format.
+-->It is used to convert the string into date format.
+SYNTAX:
+********
+TO_DATE(STRING[,FROMAT])
+
+EX:
+***
+SELECT TO_DATE('08/MAY/2021') FROM DUAL;
+SELECT TO_DATE('08-MAY-2021')+10 FROM DUAL;
+SELECT TO_DATE(25,'DD') FROM DUAL;
+SELECT TO_DATE('JANUARY 22,2021','MONTH DD,YYYY')"TO_DATE" FROM DUAL;
+SELECT TO_DATE('FEB 22 2021','MON DD YYYY')"TO_DATE" FROM DUAL;
+SELECT TO_DATE('16 05 2021','DD MM YYYY')"TO_DATE" FROM DUAL;
+
+SELECT TO_CHAR(TO_DATE('16 05 2021','DD MM YYYY'),'DD-MON-YYYY')"TO_DATE" FROM DUAL;
+TO_NUMBER:
+**********
+-->It is used to translate a value of char or varchar datatype to number format.
+
+EX:
+***
+SELECT TO_NUMBER('20') FROM DUAL;
+SELECT TO_NUMBER('200') + TO_NUMBER('700') FROM DUAL;
+SELECT TO_NUMBER('4328','9999') FROM DUAL;
+SELECT TO_NUMBER('$4328','$9999') FROM DUAL
+SELECT TO_NUMBER('4328.60','9999.99') FROM DUAL;
+
+
+
+MULTIPLE ROW FUNCTIONS OR AGGRAGATE FUNCTIONS:
+*************************************************
+THESE FUNCTIONS ARE RETURNS EITHER GROUP OF VALUES 
+(OR) A SINGLE VALUE.
+
+SUM:
+*******
+--> It returns the sum value of column.
+-->It is an aggregate function
+-->It ignore null values.
+-->it will gives the sum of the values to the specified function.
+
+SYNTAX:
+********
+SUM(DISTINCT /ALL COLUMNS)
+
+EX:
+***
+SELECT SUM(SAL) FROM EMP;
+SELECT SUM(DISTINCT SAL) FROM EMP;
+SELECT SUM(SAL) FROM EMP WHERE JOB='CLERK';
+SELECT SUM(COMM),SUM(DISTINCT COMM) FROM EMP;
+
+AVG:
+******
+-->It will give the average value.
+-->It returns the average value of column.
+-->It ignore null values.
+
+SYNTAX:
+*******
+AVG(DISTINCT /ALL COLUMNS)
+
+EX:
+****
+SELECT AVG(SAL) FROM EMP;
+SELECT AVG(DISTINCT SAL) FROM EMP;
+SELECT AVG(SAL) FROM EMP WHERE DEPTNO=10;
+SELECT AVG(COMM),AVG(DISTINCT COMM) FROM EMP;
+
+MIN():
+******
+-->It will give the minimum of the values of the specified column.
+-->It ignores null values.
+
+SYNTAX:
+*******
+MIN(DISTINCT /ALL COLUMNS)
+
+EX:
+****
+SELECT MIN(HIREDATE) FROM EMP;
+SELECT MIN(SAL),MIN(DISTINCT SAL) FROM EMP;
+SELECT MIN(HIREDATE) FROM EMP WHERE JOB='MANAGER';
+SELECT MIN(COMM) FROM EMP;
+
+MAX:
+*****
+-->It will give the maximum of the values of the specified column.
+-->It ignores null values.
+
+SYNTAX:
+*******
+MAX(DISTINCT /ALL COLUMNS)
+
+EX:
+****
+SELECT MAX(SAL),MAX(DISTINCT SAL) FROM EMP;
+SELECT MAX(COMM),MAX(DISTINCT COMM) FROM EMP;
+
+COUNT():
+----------------
+-->It will gives the number of rows in the specified column.
+-->If '*' is used to return all rows,including duplicates and nulls.
+
+--> THREE TYPES,
+	i) COUNT(*)
+	ii) COUNT(<COLUMN NAME>)
+	iii) COUNT(DISTINCT <COLUMN NAME>)
+
+COUNT(*):
+----------------
+--> COUNTING ALL ROWS (DUPLICATES & NULLS) IN A TABLE.
+
+EX:
+***
+SELECT COUNT(*) FROM EMP;
+
+COUNT(<COLUMN NAME>):
+*********************
+--> COUNTING ALL VALUES INCLUDING DUPLICATE VALUES BUT NOT NULL VALUES FROM A COLUMN.
+
+EX:
+***
+SELECT COUNT(COMM) FROM EMP;
+
+COUNT(DISTINCT <COLUMN NAME>):
+******************************
+--> COUNTING UNIQUE VALUES FROM A COLUMN.HERE "DISTINCT" KEYWORD IS ELIMINATING DUPLICATE VALUES.
+
+EX:
+****
+SELECT COUNT(DISTINCT MGR) FROM EMP;
+SELECT COUNT(DISTINCT COMM) FROM EMP;
+
+GENERAL FUNCTIONS:
+******************
+USER:
+*****
+-->The purpose of USER function is this will return the name of the present session user(schema).
+-->it returns current user name.
+
+SYNTAX:
+*******
+USER
+
+EX:
+***
+SELECT USER FROM DUAL;
+
+UID:
+****
+-->The purpose of UID function is used to find the user id value for the current session.
+
+SYNTAX:
+*******
+UID
+
+EX:
+***
+SELECT UID FROM DUAL;
+SELECT USER,UID FROM DUAL;
+
+USERENV('parameters'):
+**********************
+The parameter list of USERENV is shown in the below table.
+
+Parameter:                                              use of parameter value
+***********                                        ******************************************
+LANG                                                 Returns ISO abbrevation language name.
+LANGUAGE                                             Returns the language and territory of the current session.
+SESSIONID                                            Returns the auditing sesiion number.
+TERMINAL                                             Returns the operating system identifier of the current session
+                      
+EX:
+***
+SELECT USERENV('LANG') FROM DUAL;
+SELECT USERENV('LANGUAGE') FROM DUAL;
+SELECT USERENV('SESSIONID') FROM DUAL;
+SELECT USERENV('TERMINAL') FROM DUAL;
+         
+GREATEST: 
+**********
+-->It is used to find the greatest value in the available or provided expression values.
+
+SYNTAX:
+*******
+GREATEST (expression_list_seperated_comma)
+
+EX:
+***
+SELECT GREATEST(10,4,9,20) FROM DUAL;
+SELECT GREATEST('A','E','I','O','U') FROM DUAL;
+SELECT GREATEST(TO_DATE('11-JAN-1981','DD-MON-YYYY'),TO_DATE('16-DEC-1982','DD-MON-YYYY'),TO_DATE('12-MAR-1980','DD-MON-YYYY')) "GREATEST" FROM DUAL;
+
+LEAST:
+*****
+-->It is used to find the least value in the available or provided expression values.
+
+SYNTAX:
+*******
+LEAST(expression_list_seperated_comma)
+
+EX:
+***
+SELECT LEAST(12,34,77,8,66) "LEAST" FROM DUAL; 
+SELECT LEAST(TO_DATE('11-JAN-1981','DD-MON-YYYY'),TO_DATE('16-DEC-1982','DD-MON-YYYY'),TO_DATE('12-MAR-1980','DD-MON-YYYY')) "LEAST" FROM DUAL;
+NVL:
+****
+-->It is used to handle the null values
+-->if exp1 is null return exp2 else exp1
+
+SYNTAX:
+********
+NVL(exp1,expr2)
+
+EX:
+****
+SELECT NVL('A','B') FROM DUAL;
+SELECT NVL(NULL,'B') FROM DUAL;
+SELECT EMPNO,ENAME,JOB,SAL,COMM,NVL(SAL,0),NVL(COMM,0) FROM EMP;
+SELECT EMPNO.ENAME,JOB,SAL,COMM,NVL(SAL,0),NVL(COMM,0),SAL+COMM,SAL+NVL(COMM,0) FROM EMP;
+
+--How to check the total table size?
+
+SELECT SUM(BYTES) / 1024 FROM DBA_SEGMENTS WHERE SEGMENT_NAME='EMP'
+
+
+NVL2:
+*****
+-->If exp1 is null it returns exp3,if exp1 is not null it returns exp2
+
+SYNTAX:
+*******
+NVL2(EXP1,EXP2,EXP3)
+
+EX:
+***
+SELECT NVL2('A','B','C') FROM DUAL;
+SELECT NVL2(NULL,'B','C') FROM DUAL;
+SELECT NVL2('A',NULL,'C') FROM DUAL;
+SELECT ENAME,JOB,NVL2(COMM,SAL+COMM,SAL) NET FROM EMP;
+SELECT ENAME,JOB,COMM,SAL+COMM,SAL,
+       NVL2(COMM,SAL+COMM,SAL)
+FROM EMP;
+
+NULLIF:
+*******
+-->If exp1 and exp2 results are same it returns null value otherwise it returns exp1 result.
+
+SYNTAX:
+******
+NULLIF(EXPR1,EXPR2)
+EX:
+***
+SELECT NULLIF('A','A') FROM DUAL;
+SELECT NULLIF('A','B') FROM DUAL;
+SELECT NULLIF('','B') FROM DUAL;
+SELECT NULLIF('A',NULL) FROM DUAL;
+SELECT NULLIF(100,50*2),NULLIF(200,15*9),NULLIF(600,300+300) FROM DUAL;
+
+COALESCE:
+**********
+-->It picks the first not null values.
+
+SYNTAX:
+*******
+COALESCE(EXPR1,EXPR2,EPR3,...,EXPRN);
+
+EX:
+***
+SELECT COALESCE('A','B','C','D','E') FROM DUAL;
+SELECT COALESCE('B','C','D','E') FROM DUAL;
+SELECT COALESCE('C','D','E') FROM DUAL;
+SELECT COALESCE(NULL,NULL,NULL,'D','E') FROM DUAL;
+SELECT COALESCE(100+NULL,128-NULL+1000,12*NULL,268,2120,3281) FROM DUAL;
+SELECT ENAME,JOB,COMM*2,SAL*1.5,
+       COALESCE(COMM*2,SAL*1.5) BONUS FROM EMP;
+

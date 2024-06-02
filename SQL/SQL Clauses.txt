@@ -1,0 +1,462 @@
+Clauses:
+*********
+-->Select clause
+-->From Clause
+-->Where Clause
+-->Group by Clause
+-->Having Clause
+-->Order By Clause
+-->Distinct Clause
+
+DQL/DRL:(DATA QUERYING LANGUAGE)
+****************************
+
+1)Select Clause:
+****************
+-->It is used to retrieve the data from table.
+SELECT <COLUMNLIST>
+FROM <TABLE NAME>
+[WHERE <CONDITION>
+ GROUPBY <CONDITION>
+ HAVING <CONDITION>
+ ORDER BY <CLAUSE>
+]
+* -->Represents all columns.
+SYNTAX:
+*******
+-->SELECT Column_Name(s) FROM table_name.;
+-->SELECT DISTINCT Column_Name(s) FROM table_name.
+-->SELECT column FROM table WHERE <condition>
+-->SELECT column FROM WHERE column LIKE pattern
+-->SELECT column,SUM(column) FROM table GROUP BY column
+-->SELECT column,SUM(column) FROM table GROUP BY column HAVING SUM(column) condition
+2)From Clause:
+**************
+-->It is used to retrive the data from which table.
+
+EX:
+***
+-->SELECT * FROM EMP;   -- '*' --all columns
+-->SELECT * FROM DEPT;  -- '*' --all columns
+-->SELECT * FROM PO_HEADERS_ALL; --oracle apps tables
+-->SELECT * FROM AP_INVOICES_ALL; --oracle apps tables
+-->SELECT EMPNO,ENAME,SAL FROM EMP;  --specific columns
+-->SELECT DEPTNO,DNAME FROM DEPT;    --specific columns
+-->SELECT PO_HEADER_ID,AGENT_ID,TYPE_LOOKUP_CODE FROM PO_HEADERS_ALL; --specific columns
+ALIAS NAMES:
+************
+-->It is used to provide temporary headings for columns or expressions in select statement.
+-->They are valid in that select statement only.
+-->They are only for display purpose.
+
+EX:
+***
+-->SELECT EMPNO,ENAME,JOB,SAL BASIC,SAL+SAL*.25-SAL*.15 GROSS_SAL FROM EMP;
+-->SELECT EMPNO ENO,ENAME EMP_NAME,SAL SALARY FROM EMP;
+-->SELECT EMPNO AS ENO,ENAME AS EMP_NMAE,SAL AS SALARY FROM EMP;
+-->SELECT EMPNO "ENO",ENAME "EMP_NAME",SAL "SALARY" FROM EMP;
+-->SELECT DNAME AS "DEPTNAME",LOC AS "LOCATION" FROM DEPT;
+-->SELECT ENAME,SAL*12 AS "ANUAL SAL" FROM EMP;
+/
+SELECT EMPNO ENO,ENAME EMP_NAME,JOB DESG,SAL BASIC,SAL+SAL*.25-SAL*.15 GROSS_SAL FROM EMP;
+/
+SELECT EMPNO AS ENO,ENAME AS EMP_NAME,JOB AS DESG,SAL AS BASIC,SAL+SAL*.25-SAL*.15 AS GROSS_SAL FROM EMP;
+/
+SELECT EMPNO "ENO",ENAME "EMP_NAME",JOB "DESG",SAL "BASIC",SAL+SAL*.25-SAL*.15 "GROSS_SAL" FROM EMP;
+/
+SELECT EMPNO ENO,
+       ENAME EMP_NAME,
+       JOB DESIGNATION,
+       MGR MANAGER,
+       HIREDATE HDATE
+FROM EMP;
+/
+SELECT EMPNO  AS ENO,
+       ENAME AS EMP_NAME,
+       JOB AS DESIGNATION,
+       MGR AS MANAGER,
+       HIREDATE AS HDATE
+FROM EMP;
+/
+SELECT EMPNO "ENO",
+       ENAME "EMP_NAME",
+       JOB "DESIGNATION",
+       MGR "MANAGER",
+       HIREDATE "HDATE"
+FROM EMP
+/
+SELECT 10+10 ADDITION FROM DUAL;
+/
+
+3)Where Clause:
+***************
+-->It is used to provide the condition
+-->It is used to flter the data from grouped records
+-->It won't allow group functions and alias names in where condition
+-->Eliminates non matching records.
+-->where clause has the highest priority 
+-->Group functions are not allowed(MAX,MIN,COUNT,AVG,SUM).
+
+SYNTAX:
+	WHERE <FILTERING CONDITION>
+
+EX:
+1) Display the names of all employees who are working in EMPNO=7788
+SELECT * FROM EMP WHERE EMPNO=7788;
+
+2)Display the names of all employees who are working in department number 10
+SELECT ENAME FROM EMP WHERE DEPTNO=10;
+
+SELECT * FROM EMP WHERE DEPTNO=10;
+
+3)Display the names of all employees working as clerks and drawing a salary more than 1200 
+select * from emp where job = 'CLERK' and sal > 1200;
+
+4)Display the list of employees who have joined the company before 30th june 81 or after 31 st dec 81
+select * from emp where hiredate between '30-jun-1981' and '31-dec-1981'; 
+
+5)Display the names of all employees who are working as clerk , salesman or analyst and drawing a salary more than 3000
+select * from emp where (job='CLERK' or job='SALESMAN' or job='ANALYST') and sal>=3000;
+
+/
+SELECT *
+FROM EMP WHERE EMP.DEPTNO=10;
+/
+SELECT EMPNO ENO,
+       ENAME EMP_NAME,
+       JOB   DESG,
+       SAL   SALARY
+FROM EMP
+WHERE EMP.EMPNO=7902;  --valid
+/
+SELECT EMPNO ENO,
+       ENAME EMP_NAME,
+       JOB   DESG,
+       SAL   SALARY
+FROM EMP E
+WHERE E.EMPNO=7788;  --valid
+/
+SELECT EMPNO ENO,
+       ENAME EMP_NAME,
+       JOB   DESG,
+       SAL   SALARY
+FROM EMP
+WHERE EMP.ENO=7902;
+--THE ABOVE QUERY IT WILL THROW THE ERROR WHY BECAUSE ALIAS COLUMN NAMES NOT ALLOWED IN WHERE CONDITION 
+/
+SELECT * FROM EMP WHERE JOB='CLERK';
+SELECT * FROM EMP WHERE ENAME='SCOTT';
+SELECT * FROM EMP WHERE EMPNO=7902;
+SELECT * FROM EMP WHERE SAL=3000;
+SELECT * FROM EMP WHERE DEPTNO=10 AND JOB='CLERK';
+SELECT * FROM EMP WHERE SAL>2000 AND SAL<5000; 
+/
+UPDATE EMP SET SAL=8500 WHERE JOB='CLERK';
+DELETE FROM EMP WHERE DEPTNO=10;
+
+4)Group by Clause:
+******************
+-->It is used to grouping the similar data based on the columns.
+-->It is used to group rows based on one or more columns/expressions to calculate aggerates like min,max,sum,
+   avg,count for each group.
+-->By using this clause select statement to combine a group of rows based on the values as a particular column or expression.
+-->Whenever we implement "GROUP BY " Clause in select statement then first grouping similar data based on columns and later an aggregative functions will 
+execute on each group of data to produce accurate result.
+
+
+-->When we use "GROUP BY" we must use "AGGREGATIVE FUNCTIONS" are SUM(),AVG(),MIN(),MAX(),COUNT().
+
+Syntax:
+*******
+SELECT <COLUMN NAME1>,<COLUMN NAME2>,......,<AGGREGATIVE FUNCTION NAME1>,
+....... FROM <TN> [WHERE <cond>] [GROUP BY <COLUMN NAME1>,<COLUMN NAME2>,...........................];
+	
+EX:
+***
+1)Write a Query to calculate department number wise total salary.?
+
+SELECT DEPTNO,SUM(SAL)  FROM EMP GROUP BY DEPTNO ORDER BY DEPTNO;
+
+SELECT DEPTNO,SUM(SAL)
+FROM EMP
+GROUP BY DEPTNO;
+
+2)Write a Query to fnd out NO.Of employee working in each job?
+
+SELECT JOB,COUNT(*) NUM_OF_EMPLOYEE FROM EMP GROUP BY JOB order by 1;
+
+
+3)Write a query to display NO.Of employee working in each job along with deptno wise?
+SELECT JOB,DEPTNO,COUNT(*) NUM_OF_EMPLOYEE FROM EMP GROUP BY JOB,DEPTNO;
+
+4)Write a query to calculate deptno wise AVG,MIN,MAX salaries.
+
+SELECT DEPTNO,AVG(SAL) AVGSAL,MIN(SAL) MINSAL,MAX(SAL) MAXSAL FROM EMP GROUP BY DEPTNO ORDER BY DEPTNO; 
+
+5)Display Department numbers and total number of employees working in each Department?
+select deptno,count(*) from emp group by deptno; 
+6)How many employees are joined in each year.year wise no.of.employees are joined.
+SELECT HIREDATE,COUNT(*) FROM EMP GROUP BY HIREDATE;
+SELECT TO_CHAR(HIREDATE,'YYYY') AS YEAR,COUNT(*) AS CNT FROM EMP GROUP BY  TO_CHAR(HIREDATE,'YYYY') ORDER BY 1;
+
+7)Dept wise total salaries where deptno=10 or 20?
+
+SELECT DEPTNO,SUM(SAL)
+FROM EMP
+WHERE DEPTNO IN (10,20)
+GROUP BY DEPTNO
+ORDER BY 1;
+
+8)Calculate dept wise and with in the department job wise total salaries.
+SELECT JOB,DEPTNO,SUM(SAL) AS SUMSAL
+FROM EMP 
+GROUP BY DEPTNO,JOB;
+/
+SELECT TYPE_LOOKUP_CODE,COUNT(*)
+FROM PO_HEADERS_ALL
+GROUP BY TYPE_LOOKUP_CODE;
+/
+SELECT SUM(INVOICE_AMOUNT)
+FROM AP_INVOICES_ALL;
+/
+SELECT INVOICE_CURRENCY_CODE,SUM(INVOICE_AMOUNT),COUNT(*)
+FROM AP_INVOICES_ALL
+GROUP BY INVOICE_CURRENCY_CODE;
+/
+SELECT ORGANIZATION_CODE,COUNT(*)
+FROM MTL_PARAMETERS
+GROUP BY ORGANIZATION_CODE;
+/
+
+5)Having Clause:
+****************
+-->Having clause added to SQL because the WHERE clause could not be used with aggregate functions.
+-->It is used to specify the conditions on aggregate functons.It is always used along with group by clause.
+-->It is used to filter the data from grouped data based on condition.
+-->Filtering rows after grouping data in table.It can be used along with "GROUP BY" clause.
+-->It is similar to the where condition but is used with group functions 
+-->group functions cannot be used in where clause.
+
+SYNTAX:
+*******
+SELECT <COLUMN NAME1>,<COLUMN NAME2>,......,<AGGREGATIVE FUNCTION NAME1>,
+....... FROM <TN> GROUP BY <COLUMN NAME1>,<COLUMN NAME2>,................................
+HAVING <FILTERING CONDITION>;
+
+EX:
+***
+Dept wise total salaries and sum sal>9000?
+
+SELECT DEPTNO,SUM(SAL)
+FROM EMP
+WHERE 1=1
+AND   SUM(SAL)>9000 --group functions
+GROUP BY DEPTNO
+;
+--the above query will throw the error to overcome this issue we need to use having clause
+
+
+SELECT DEPTNO,SUM(SAL)
+FROM EMP
+WHERE 1=1
+GROUP BY DEPTNO
+HAVING SUM(SAL)>9000
+;
+
+SELECT DEPTNO,SUM(SAL)
+FROM EMP
+WHERE 1=1
+HAVING SUM(SAL)>9000
+GROUP BY DEPTNO
+;
+/
+SELECT DEPTNO,SUM(SAL)
+FROM EMP
+WHERE sal>=1250
+HAVING SUM(SAL)>5000
+GROUP BY DEPTNO
+;
+/
+1)Dept wise total salaries where deptno=10 or 20 and sum sal>9000?
+
+SELECT DEPTNO,SUM(SAL)
+FROM EMP
+WHERE DEPTNO IN (10,20)
+AND   SUM(SAL)>9000
+GROUP BY DEPTNO
+ORDER BY 1;
+--the above query will throw the error to overcome this issue we need to use having clause
+
+SELECT DEPTNO,SUM(SAL)
+FROM EMP
+WHERE DEPTNO IN (10,20)
+GROUP BY DEPTNO
+HAVING SUM(SAL)>9000
+ORDER BY 1;
+
+SELECT DEPTNO,SUM(SAL)
+FROM EMP
+WHERE DEPTNO IN (10,20)
+HAVING SUM(SAL)>9000
+GROUP BY DEPTNO
+ORDER BY 1;
+
+
+
+2)Write a query to find out no of employees of each job in which job no of employees are more than 3?
+
+SELECT JOB,COUNT(*) FROM EMP GROUP BY JOB HAVING COUNT(*)>3;
+
+3)Write a query to display sum of salary of deptno's from emp table. If sum of salary of deptno is less than 9000?
+
+SELECT DEPTNO,SUM(SAL) FROM EMP GROUP BY DEPTNO HAVING SUM(SAL)<9000;
+/
+--how to find out Duplicate data 
+SELECT  ITEM_ID,COUNT(*)
+FROM PO_LINES_ALL
+GROUP BY ITEM_ID
+HAVING COUNT(*)>1;
+/
+--how to find out without Duplicate data 
+
+SELECT  ITEM_ID,COUNT(*)
+FROM PO_LINES_ALL
+GROUP BY ITEM_ID
+HAVING COUNT(*)=1
+
+
+6)Order by Clause:
+******************
+-->It is used to make the data in order.
+-->It is used to arrange the select statement output in ascending order or descendin order.
+-->By default order by clause arrange values in ascending order but if we want to arrange values in descending order then we use "DESC" keyword.
+-->Must be the last clause in select statement.
+-->It supports with all types of data.
+
+SYNTAX:
+*******
+
+SELECT * / <LIST OF COLUMN NAMES> FROM <TN>
+ORDER BY <COLUMN NAME1> <ASC / DESC> ,<COLUMN NAME2> <ASC/DESC>,............;
+
+1)Write a query to display employee salaries in ascending order?
+
+SELECT * FROM EMP ORDER BY SAL;
+
+SELECT SAL FROM EMP ORDER BY SAL;
+
+2)Write a query to display employee names in descending order?
+
+SELECT ENAME FROM EMP ORDER BY ENAME DESC;
+
+3)Write a Query to display employee who are working in the deptno is 20 and arrange those employee salares in descending order?
+
+SELECT * FROM EMP WHERE DEPTNO=20 ORDER BY SAL DESC;
+
+
+SINGLE COLUMN:
+************** 
+-->SELECT * FROM EMP ORDER BY ENAME [ASC];
+-->SELECT * FROM EMP ORDER BY SAL   [DESC];
+
+MULTIPLE COLUMNS:
+*****************
+-->SELECT * FROM EMP ORDER BY EMPNO,ENAME;
+-->SELECT * FROM EMP ORDER BY EMPNO,ENAME,SAL;
+
+NOTE:
+*****
+ORDER By Clause not only on column names eventhough we can apply on position of column in select query.
+
+EX:
+***
+SELECT * FROM EMP ORDER BY 6 desc;
+SELECT ENAME,JOB,SAL FROM EMP ORDER BY 3;
+SELECT ENAME,SAL FROM EMP ORDER BY 2;
+SELECT SAL,COMM FROM EMP ORDER BY 1;
+
+
+
+7)Distinct Clause:
+*******************
+-->It is used to restrict the duplicate records.
+
+EX:
+***
+SELECT DISTINCT JOB FROM EMP;
+SELECT DISTINCT DEPTNO FROM EMP;
+SELECT DISTINCT SAL FROM EMP;
+SELECT DISTINCT ENMAE FROM EMP;
+SELECT DISTINCT COMM FROM EMP;
+
+
+INSERT INTO EMP_BKP VALUES(7839,'KING','PRESIDENT',NULL,'17-NOV-1981',5000,NULL,10); --For duplicate purpose
+
+SELECT DISTINCT EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO FROM EMP_BKP WHERE EMPNO=7839;
+
+SELECT *
+FROM XX_STUDENT;
+/
+INSERT INTO XX_STUDENT VALUES(1,'A','CSE',1000,9000000,'abc@gmail>com','30-AUG-21');
+/
+INSERT INTO XX_STUDENT VALUES(12,'B','EEE',2000,9000001,'abcd@gmail>com','30-AUG-21');
+/
+INSERT INTO XX_STUDENT VALUES(3,'C','CSE',13000,9000002,'abcE@gmail>com','30-AUG-21');
+/
+INSERT INTO XX_STUDENT VALUES(1,'A','CSE',1000,9000000,'abc@gmail>com','30-AUG-21');
+/
+SELECT DISTINCT ROLLNO FROM XX_STUDENT;
+/
+
+--TABLE STRUCTURE ALONG WITH DATA
+CREATE TABLE <NEWTABLENAME>
+AS
+SELECT *
+FROM <EXISTNG TABLENAME>;
+/
+CREATE TABLE EMP_BKP
+AS
+SELECT *
+FROM EMP;
+/
+SELECT * FROM EMP_BKP;
+/
+--PREViOUS TABLE STRUCTURE CREATION TO NEW TABLE
+CREATE TABLE <NEWTABLENAME>
+AS
+SELECT *
+FROM <EXISTNG TABLENAME>
+WHERE 1=2;
+/
+CREATE TABLE EMP_BKP10
+AS
+SELECT *
+FROM EMP
+WHERE 1=2;
+/
+SELECT * FROM EMP_BKP10;
+/
+CREATE TABLE EMP_BKP20
+AS
+SELECT *
+FROM EMP
+WHERE 1=1;
+/
+SELECT * FROM EMP_BKP20;
+/
+--How to find out the columns in Base Table.
+/
+SELECT COUNT(COLUMN_NAME)
+FROM ALL_TAB_COLUMNS
+WHERE TABLE_NAME='EMP'
+AND   OWNER='APPS';
+/
+SELECT COUNT(COLUMN_NAME)
+FROM ALL_TAB_COLUMNS
+WHERE TABLE_NAME='MTL_SYSTEM_ITEMS_B'
+AND   OWNER='INV'
+
+
+
+
+
